@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dakoq.WebApp", "src\Dakoq.WebApp\Dakoq.WebApp\Dakoq.WebApp.csproj", "{DCAC708F-D70A-4576-B452-24AC3D203C96}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dakoq.WebApp.Client", "src\Dakoq.WebApp\Dakoq.WebApp.Client\Dakoq.WebApp.Client.csproj", "{8C1381F4-D096-4904-A9EE-A7AB11A4BFCC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DCAC708F-D70A-4576-B452-24AC3D203C96}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DCAC708F-D70A-4576-B452-24AC3D203C96}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DCAC708F-D70A-4576-B452-24AC3D203C96}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DCAC708F-D70A-4576-B452-24AC3D203C96}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C1381F4-D096-4904-A9EE-A7AB11A4BFCC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C1381F4-D096-4904-A9EE-A7AB11A4BFCC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C1381F4-D096-4904-A9EE-A7AB11A4BFCC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C1381F4-D096-4904-A9EE-A7AB11A4BFCC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
