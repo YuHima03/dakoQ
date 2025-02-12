@@ -7,6 +7,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dakoq.WebApp", "src\Dakoq.W
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dakoq.WebApp.Client", "src\Dakoq.WebApp\Dakoq.WebApp.Client\Dakoq.WebApp.Client.csproj", "{8C1381F4-D096-4904-A9EE-A7AB11A4BFCC}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ソリューション項目", "ソリューション項目", "{0FDE7082-2251-41F2-ABC9-E15E716E9C74}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose.yml = docker-compose.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

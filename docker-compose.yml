@@ -1,0 +1,34 @@
+services:
+  server:
+    build:
+      dockerfile: src/Dakoq.WebApp/Dakoq.WebApp/Dockerfile
+    ports:
+      - 5050:8080
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    env_file:
+      - .env
+    mem_limit: 100m
+
+  mariadb:
+    image: mariadb:latest
+    restart: always
+    environment:
+      MARIADB_DATABASE: $NS_MARIADB_DATABASE
+      MARIADB_PORT: $NS_MARIADB_PORT
+      MARIADB_USER: $NS_MARIADB_USER
+      MARIADB_PASSWORD: $NS_MARIADB_PASSWORD
+      MARIADB_ROOT_PASSWORD: $NS_MARIADB_PASSWORD
+    ports:
+      - 3333:$NS_MARIADB_PORT
+    volumes:
+      - ./db/init:/docker-entrypoint-initdb.d
+      - ./db/mysql:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mariadb-admin", "-h", "localhost", "-P", "$NS_MARIADB_PORT", "-u", "$NS_MARIADB_USER", "-p$NS_MARIADB_PASSWORD", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 1s
+    mem_limit: 1g
