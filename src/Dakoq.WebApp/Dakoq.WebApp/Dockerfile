@@ -6,24 +6,36 @@ USER $APP_UID
 WORKDIR /app
 EXPOSE 8080
 
-
-# このステージは、サービス プロジェクトのビルドに使用されます
-FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
-ARG BUILD_CONFIGURATION=Release
+# Prepare for build.
+FROM mcr.microsoft.com/dotnet/sdk:9.0 AS prepare
 WORKDIR /src
 COPY ["src/Dakoq.WebApp/Dakoq.WebApp/Dakoq.WebApp.csproj", "src/Dakoq.WebApp/Dakoq.WebApp/"]
 COPY ["src/Dakoq.WebApp/Dakoq.WebApp.Client/Dakoq.WebApp.Client.csproj", "src/Dakoq.WebApp/Dakoq.WebApp.Client/"]
 RUN dotnet restore "./src/Dakoq.WebApp/Dakoq.WebApp/Dakoq.WebApp.csproj"
 COPY . .
+
+# Build css files with TailwindCSS-CLI.
+FROM node:lts-alpine AS css_build
+WORKDIR /src
+COPY --from=prepare /src .
+WORKDIR "/src/src/Dakoq.WebApp/Dakoq.WebApp"
+RUN npm i
+RUN npx @tailwindcss/cli -i "./Styles/app.css" -o "./wwwroot/css/app.css"
+
+# Build the service project.
+FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
+ARG BUILD_CONFIGURATION=Release
+WORKDIR /src
+COPY --from=css_build /src .
 WORKDIR "/src/src/Dakoq.WebApp/Dakoq.WebApp"
 RUN dotnet build "./Dakoq.WebApp.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
-# このステージは、最終ステージにコピーするサービス プロジェクトを公開するために使用されます
+# Publish the service project to copy to the final stage.
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
 RUN dotnet publish "./Dakoq.WebApp.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
-# このステージは、運用環境または VS から通常モードで実行している場合に使用されます (デバッグ構成を使用しない場合の既定)
+# Provide application binary.
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
