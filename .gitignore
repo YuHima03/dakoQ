@@ -406,3 +406,6 @@ FodyWeavers.xsd
 
 # Mounted database files
 db/mysql
+
+# CSS files from TailwindCSS
+src/Dakoq.WebApp/Dakoq.WebApp/wwwroot/css
