@@ -12,6 +12,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ソリューション項目
 		docker-compose.yml = docker-compose.yml
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dakoq.Repository", "src\Dakoq.Repository\Dakoq.Repository.csproj", "{B1A82E72-9950-4C1D-8478-2663FFD974CE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,6 +28,10 @@ Global
 		{8C1381F4-D096-4904-A9EE-A7AB11A4BFCC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8C1381F4-D096-4904-A9EE-A7AB11A4BFCC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8C1381F4-D096-4904-A9EE-A7AB11A4BFCC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1A82E72-9950-4C1D-8478-2663FFD974CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1A82E72-9950-4C1D-8478-2663FFD974CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1A82E72-9950-4C1D-8478-2663FFD974CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1A82E72-9950-4C1D-8478-2663FFD974CE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
