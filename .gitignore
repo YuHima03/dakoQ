@@ -405,4 +405,4 @@ FodyWeavers.xsd
 .env
 
 # Mounted database files
-/dev/mysql
+db/mysql
