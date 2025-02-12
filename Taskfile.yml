@@ -1,0 +1,16 @@
+version: 3
+
+tasks:
+  dev-up:
+    cmds:
+      - docker compose up -d --build
+
+  dev-down:
+    cmds:
+      - docker compose down
+
+  dev-restart:
+    cmds:
+      - docker compose build
+      - docker compose down
+      - docker compose up -d
