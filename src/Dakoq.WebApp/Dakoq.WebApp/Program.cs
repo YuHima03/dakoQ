@@ -7,6 +7,8 @@ namespace Dakoq.WebApp
 {
     public class Program
     {
+        public static Uri TraqApiBaseAddress = new("https://q.trap.jp/api/v3");
+
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
@@ -16,12 +18,19 @@ namespace Dakoq.WebApp
                 .AddInteractiveServerComponents()
                 .AddInteractiveWebAssemblyComponents();
 
+            builder.Services.AddControllers();
+
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie();
 
             builder.Services
                 .AddScoped<AuthenticationStateProvider, ServerAuthenticationStateProvider>()
                 .AddCascadingAuthenticationState();
+
+            builder.Services.AddHttpClient("traQ", client =>
+            {
+                client.BaseAddress = TraqApiBaseAddress;
+            });
 
             var app = builder.Build();
 
@@ -45,6 +54,7 @@ namespace Dakoq.WebApp
                 .AddInteractiveServerRenderMode()
                 .AddInteractiveWebAssemblyRenderMode()
                 .AddAdditionalAssemblies(typeof(Client._Imports).Assembly);
+            app.MapControllers();
 
             app.Run();
         }
