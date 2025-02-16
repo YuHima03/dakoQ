@@ -1,4 +1,7 @@
 using Dakoq.WebApp.Components;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Components.Server;
 
 namespace Dakoq.WebApp
 {
@@ -13,6 +16,13 @@ namespace Dakoq.WebApp
                 .AddInteractiveServerComponents()
                 .AddInteractiveWebAssemblyComponents();
 
+            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie();
+
+            builder.Services
+                .AddScoped<AuthenticationStateProvider, ServerAuthenticationStateProvider>()
+                .AddCascadingAuthenticationState();
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -26,6 +36,9 @@ namespace Dakoq.WebApp
             }
 
             app.UseAntiforgery();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.MapStaticAssets();
             app.MapRazorComponents<App>()
