@@ -15,6 +15,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ソリューション項目
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dakoq.Repository", "src\Dakoq.Repository\Dakoq.Repository.csproj", "{B1A82E72-9950-4C1D-8478-2663FFD974CE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dakoq.Domain", "src\Dakoq.Domain\Dakoq.Domain.csproj", "{2D9E3516-167E-43A8-A626-2E4AF6AFB471}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{B1A82E72-9950-4C1D-8478-2663FFD974CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B1A82E72-9950-4C1D-8478-2663FFD974CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B1A82E72-9950-4C1D-8478-2663FFD974CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D9E3516-167E-43A8-A626-2E4AF6AFB471}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D9E3516-167E-43A8-A626-2E4AF6AFB471}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D9E3516-167E-43A8-A626-2E4AF6AFB471}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D9E3516-167E-43A8-A626-2E4AF6AFB471}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
