@@ -2,6 +2,7 @@ using Dakoq.WebApp.Components;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Server;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using MySql.Data.MySqlClient;
 
@@ -62,6 +63,12 @@ namespace Dakoq.WebApp
                     options.DbConnectionString = csb.ConnectionString;
                     options.KnoqAuthInfo = knoqAuth;
                     options.TraqApiBaseAddress = Uri.TryCreate(config.GetValue<string>("TRAQ_API_SERVER"), UriKind.RelativeOrAbsolute, out _uri) ? _uri : null;
+                });
+
+                // Database context
+                services.AddDbContextFactory<Repository.RepositoryContext>((services, options) => {
+                    var conf = services.GetRequiredService<IOptions<AppConfiguration>>();
+                    options.UseMySQL(conf.Value.DbConnectionString!);
                 });
             }
 
