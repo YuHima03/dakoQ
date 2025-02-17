@@ -10,8 +10,6 @@ namespace Dakoq.WebApp
 {
     public class Program
     {
-        public static Uri TraqApiBaseAddress = new("https://q.trap.jp/api/v3");
-
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
@@ -45,7 +43,7 @@ namespace Dakoq.WebApp
                     var config = builder.Configuration;
 
                     KnoqAuthenticationInfo knoqAuth = new()
-                {
+                    {
                         TraqUsername = config.GetValue<string>("TRAQ_USERNAME"),
                         TraqPassword = config.GetValue<string>("TARQ_PASSWORD")
                     };
