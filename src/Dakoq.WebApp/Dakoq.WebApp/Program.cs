@@ -48,6 +48,12 @@ namespace Dakoq.WebApp
                         TraqPassword = config.GetValue<string>("TARQ_PASSWORD")
                     };
 
+                    TraqOAuthClientInfo traqOAuthClient = new()
+                    {
+                        ClientId = config.GetValue<string>("TRAQ_CLIENT_ID"),
+                        ClientSecret = config.GetValue<string>("TRAQ_CLIENT_SECRET")
+                    };
+
                     MySqlConnectionStringBuilder csb = new()
                     {
                         Server = config.GetValue<string>("NS_MARIADB_HOSTNAME"),
@@ -57,10 +63,12 @@ namespace Dakoq.WebApp
                         Database = config.GetValue<string>("NS_MARIADB_DATABASE")
                     };
 
-                    options.DakoqBaseAddress = Uri.TryCreate(config.GetValue<string>("DAKOQ_SERVER"), UriKind.RelativeOrAbsolute, out var _uri) ?_uri : null;
+                    options.DakoqBaseAddress = Uri.TryCreate(config.GetValue<string>("DAKOQ_SERVER"), UriKind.RelativeOrAbsolute, out var _uri) ? _uri : null;
                     options.DbConnectionString = csb.ConnectionString;
+                    options.KnoqApiBaseAddress = Uri.TryCreate(config.GetValue<string>("KNOQ_API_SERVER"), UriKind.RelativeOrAbsolute, out _uri) ? _uri : null;
                     options.KnoqAuthInfo = knoqAuth;
                     options.TraqApiBaseAddress = Uri.TryCreate(config.GetValue<string>("TRAQ_API_SERVER"), UriKind.RelativeOrAbsolute, out _uri) ? _uri : null;
+                    options.TraqOAuthClientInfo = traqOAuthClient;
                 });
 
                 // Database context
