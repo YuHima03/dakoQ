@@ -80,7 +80,8 @@ namespace Dakoq.WebApp
                 });
 
                 // Database context
-                services.AddDbContextFactory<Repository.RepositoryContext>((services, options) => {
+                services.AddDbContextFactory<Repository.RepositoryContext>((services, options) =>
+                {
                     var conf = services.GetRequiredService<IOptions<AppConfiguration>>();
                     options.UseMySQL(conf.Value.DbConnectionString!);
                 });
