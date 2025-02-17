@@ -2,6 +2,8 @@ using Dakoq.WebApp.Components;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Server;
+using Microsoft.Extensions.Options;
+using MySql.Data.MySqlClient;
 
 namespace Dakoq.WebApp
 {
@@ -37,9 +39,29 @@ namespace Dakoq.WebApp
                 services.AddHttpClient("traQ", c => c.BaseAddress = traqApiBaseAddress);
 
                 // Configuration
-                services.Configure<AppConfiguration>(options =>
+                services.PostConfigure<AppConfiguration>(options =>
                 {
+                    var config = builder.Configuration;
 
+                    KnoqAuthenticationInfo knoqAuth = new()
+                {
+                        TraqUsername = config.GetValue<string>("TRAQ_USERNAME"),
+                        TraqPassword = config.GetValue<string>("TARQ_PASSWORD")
+                    };
+
+                    MySqlConnectionStringBuilder csb = new()
+                    {
+                        Server = config.GetValue<string>("NS_MARIADB_HOSTNAME"),
+                        Port = uint.TryParse(config.GetValue<string>("NS_MARIADB_PORT"), out var _port) ? _port : default,
+                        UserID = config.GetValue<string>("NS_MARIADB_USER"),
+                        Password = config.GetValue<string>("NS_MARIADB_PASSWORD"),
+                        Database = config.GetValue<string>("NS_MARIADB_DATABASE")
+                    };
+
+                    options.DakoqBaseAddress = Uri.TryCreate(config.GetValue<string>("DAKOQ_SERVER"), UriKind.RelativeOrAbsolute, out var _uri) ?_uri : null;
+                    options.DbConnectionString = csb.ConnectionString;
+                    options.KnoqAuthInfo = knoqAuth;
+                    options.TraqApiBaseAddress = Uri.TryCreate(config.GetValue<string>("TRAQ_API_SERVER"), UriKind.RelativeOrAbsolute, out _uri) ? _uri : null;
                 });
             }
 
