@@ -13,24 +13,35 @@ namespace Dakoq.WebApp
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
-            builder.Services.AddRazorComponents()
-                .AddInteractiveServerComponents()
-                .AddInteractiveWebAssemblyComponents();
-
-            builder.Services.AddControllers();
-
-            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie();
-
-            builder.Services
-                .AddScoped<AuthenticationStateProvider, ServerAuthenticationStateProvider>()
-                .AddCascadingAuthenticationState();
-
-            builder.Services.AddHttpClient("traQ", client =>
+            // Configure services
             {
-                client.BaseAddress = TraqApiBaseAddress;
-            });
+                var services = builder.Services;
+
+                // API controllers
+                services.AddControllers();
+
+                // Razor (View)
+                services.AddRazorComponents()
+                    .AddInteractiveServerComponents()
+                    .AddInteractiveWebAssemblyComponents();
+
+                // Authentication
+                services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                    .AddCookie();
+                services
+                    .AddScoped<AuthenticationStateProvider, ServerAuthenticationStateProvider>()
+                    .AddCascadingAuthenticationState();
+
+                // Http client
+                Uri traqApiBaseAddress = new(builder.Configuration.GetValue<string>("TARQ_API_SERVER") ?? "https://q.trap.jp/api/v3");
+                services.AddHttpClient("traQ", c => c.BaseAddress = traqApiBaseAddress);
+
+                // Configuration
+                services.Configure<AppConfiguration>(options =>
+                {
+
+                });
+            }
 
             var app = builder.Build();
 
