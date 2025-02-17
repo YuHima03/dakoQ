@@ -42,6 +42,14 @@ namespace Dakoq.WebApp
                 {
                     var config = builder.Configuration;
 
+                    if (config.GetValue<string>("env-files") is string envFiles && !string.IsNullOrWhiteSpace(envFiles))
+                    {
+                        foreach (var path in envFiles.Split(';'))
+                        {
+                            config.AddIniStream(File.OpenRead(path));
+                        }
+                    }
+
                     KnoqAuthenticationInfo knoqAuth = new()
                     {
                         TraqUsername = config.GetValue<string>("TRAQ_USERNAME"),
