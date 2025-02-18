@@ -4,10 +4,12 @@ namespace Dakoq.Repository
 {
     public interface IRoomsRepository
     {
-        public ValueTask<Room> GetRoomAsync(Guid id, CancellationToken ct);
+        public ValueTask<Room> GetRoomAsync(Guid id, CancellationToken ct = default);
 
-        public ValueTask<Room> GetRoomAsync(string alias, CancellationToken ct);
+        public ValueTask<Room> GetAvailableRoomAsync(string alias, CancellationToken ct = default);
 
-        public ValueTask<Room> PostRoomAsync(PostRoomRequest req, CancellationToken ct);
+        public ValueTask<List<Room>> GetAvailableRoomsAsync(CancellationToken ct = default);
+
+        public ValueTask<Room> PostRoomAsync(PostRoomRequest req, CancellationToken ct = default);
     }
 }
