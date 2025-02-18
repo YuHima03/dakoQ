@@ -28,7 +28,10 @@ namespace Dakoq.WebApp
 
                 // Authentication
                 services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                    .AddCookie();
+                    .AddCookie(static options => {
+                        options.LoginPath = "/login";
+                        options.LogoutPath = "/logout";
+                    });
                 services
                     .AddScoped<AuthenticationStateProvider, ServerAuthenticationStateProvider>()
                     .AddCascadingAuthenticationState();
