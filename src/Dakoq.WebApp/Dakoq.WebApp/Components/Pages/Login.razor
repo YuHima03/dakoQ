@@ -1,0 +1,29 @@
+﻿@page "/login"
+@attribute [AllowAnonymous]
+@inject NavigationManager Navigation
+@rendermode InteractiveServer
+
+<PageTitle>ログイン | dakoQ</PageTitle>
+
+<AuthorizeView>
+    <Authorized>
+        <RedirectToTop />
+    </Authorized>
+    <NotAuthorized>
+        <h3>Login</h3>
+
+        <Button Variant="Button.ButtonVariants.Primary" OnClickCallback="RedirectToTraqAuth">
+            traQ で認証
+        </Button>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    [SupplyParameterFromQuery(Name = "ReturnQuery")]
+    public string? ReturnUrl { get; set; }
+
+    void RedirectToTraqAuth(MouseEventArgs e)
+    {
+        Navigation.NavigateTo("/api/auth/traq", forceLoad: true);
+    }
+}

@@ -1,23 +1,13 @@
 ﻿@page "/"
 @inject NavigationManager Navigation
 
-<PageTitle>Home</PageTitle>
+<PageTitle>dakoQ</PageTitle>
 
 <AuthorizeView>
     <Authorized>
         Hello!
+        <Dakoq.WebApp.Components.Views.Button IconStart="add" Variant="Views.Button.ButtonVariants.Secondary">
+            ぼたん
+        </Dakoq.WebApp.Components.Views.Button>
     </Authorized>
-
-    <NotAuthorized>
-        <div class="w-full">
-            <a href="/api/auth/traq" class="
-                w-fit h-fit flex flex-row py-2 px-8 mx-auto rounded-lg text-white bg-brand-primary select-none cursor-pointer
-                hover:bg-brand-secondary
-            ">
-                <span class="text-style-title">
-                    traQで認証
-                </span>
-            </a>
-        </div>
-    </NotAuthorized>
 </AuthorizeView>
