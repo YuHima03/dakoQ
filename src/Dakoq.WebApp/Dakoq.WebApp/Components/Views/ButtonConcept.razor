@@ -1,0 +1,16 @@
+﻿<span class="w-fit flex flex-row items-center cursor-pointer">
+    @IconStart
+    @ChildContent
+    @IconEnd
+</span>
+
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public RenderFragment? IconStart { get; set; }
+
+    [Parameter]
+    public RenderFragment? IconEnd { get; set; }
+}
