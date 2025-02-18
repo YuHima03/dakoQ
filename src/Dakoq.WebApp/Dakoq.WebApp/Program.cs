@@ -88,6 +88,63 @@ namespace Dakoq.WebApp
                     var conf = services.GetRequiredService<IOptions<AppConfiguration>>();
                     options.UseMySQL(conf.Value.DbConnectionString!);
                 });
+
+                services.AddScoped(static s => {
+                    var conf = s.GetRequiredService<IOptions<AppConfiguration>>();
+                    var authStateProvider = s.GetRequiredService<AuthenticationStateProvider>();
+
+                    return authStateProvider.GetAuthenticationStateAsync().ContinueWith<AuthUserInfo?>(t => {
+                        var u = t.Result.User;
+
+                        string? token = null;
+                        string? username = null;
+                        Guid? userId = null;
+                        DateTimeOffset? tokenExpiresAt = null;
+
+                        foreach (var c in u.Claims)
+                        {
+                            switch (c.Type)
+                            {
+                                case ClaimTypes.Expiration:
+                                    if (tokenExpiresAt is null && DateTimeOffset.TryParse(c.Value, out var dt))
+                                    {
+                                        tokenExpiresAt = dt;
+                                    }
+                                    break;
+                                case ClaimTypes.Name:
+                                    if (username is null && !string.IsNullOrWhiteSpace(c.Value))
+                                    {
+                                        username = c.Value;
+                                    }
+                                    break;
+                                case ClaimTypes.NameIdentifier:
+                                    if (userId is null && Guid.TryParse(c.Value, out var guid))
+                                    {
+                                        userId = guid;
+                                    }
+                                    break;
+                                case ClaimTypes.UserData:
+                                    if (token is null && !string.IsNullOrWhiteSpace(c.Value))
+                                    {
+                                        token = c.Value;
+                                    }
+                                    break;
+                            }
+                        }
+
+                        if (token is null || username is null || userId is null || tokenExpiresAt is null)
+                        {
+                            return null;
+                        }
+                        return new AuthUserInfo()
+                        {
+                            AccessToken = token,
+                            Id = userId.Value,
+                            Name = username,
+                            TokenExpiresAt = tokenExpiresAt.Value,
+                        };
+                    });
+                });
             }
 
             var app = builder.Build();
