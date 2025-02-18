@@ -15,8 +15,8 @@ CREATE TABLE `rooms` (
     `updated_at`        DATETIME        NOT NULL    DEFAULT CURRENT_TIMESTAMP   ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (`data_source_id`) REFERENCES `room_data_sources`(`id`)
 )   DEFAULT CHARSET=utf8mb4;
-ALTER TABLE `rooms` ADD INDEX `idx_name_and_time_range` (`name`, `starts_at`, `ends_at`);
-ALTER TABLE `rooms` ADD INDEX `idx_time_range`          (`starts_at`, `ends_at`);
+ALTER TABLE `rooms` ADD INDEX `idx_alias_and_time_range` (`alias`, `starts_at`, `ends_at`);
+ALTER TABLE `rooms` ADD INDEX `idx_time_range`           (`starts_at`, `ends_at`);
 
 CREATE TABLE `room_admin_groups` (
     `room_id`       CHAR(36)    NOT NULL,
