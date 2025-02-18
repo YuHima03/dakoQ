@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System.Security.Claims;
 
-namespace Dakoq.WebApp.Controllers
+namespace Dakoq.WebApp.Controllers.Authentication
 {
     [ApiController]
     [Route("/api/auth/traq")]
@@ -17,7 +17,8 @@ namespace Dakoq.WebApp.Controllers
         [HttpGet]
         public async Task<IActionResult> CallbackAsync([FromQuery(Name = "code")] string? code)
         {
-            var traqOAuthClient = _config.Value.TraqOAuthClientInfo;
+            var conf = _config.Value;
+            var traqOAuthClient = conf.TraqOAuthClientInfo;
             if (traqOAuthClient?.ClientId is null)
             {
                 return StatusCode(StatusCodes.Status503ServiceUnavailable);
@@ -35,8 +36,17 @@ namespace Dakoq.WebApp.Controllers
             }
 
             var token = res.Data;
+            Traq.TraqApiClient traqClient = new(Options.Create(new Traq.TraqApiClientOptions()
+            {
+                BaseAddress = conf.TraqApiBaseAddress?.ToString() ?? "",
+                BearerAuthToken = token.AccessToken
+            }));
+            var traqUser = await traqClient.MeApi.GetMeAsync();
+
             ClaimsIdentity identity = new(
                 claims: [
+                    new Claim(ClaimTypes.Name, traqUser.Name),
+                    new Claim(ClaimTypes.NameIdentifier, traqUser.Id.ToString()),
                     new Claim(ClaimTypes.UserData, token.AccessToken),
                     new Claim(ClaimTypes.Expiration, (DateTimeOffset.Now+TimeSpan.FromSeconds(token.ExpiresIn)).ToString())
                 ],
