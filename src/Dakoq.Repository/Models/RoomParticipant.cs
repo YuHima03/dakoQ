@@ -1,7 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Dakoq.Repository.Models
 {
+    [Keyless]
     public sealed class RoomParticipant
     {
         [Column("room_id")]
