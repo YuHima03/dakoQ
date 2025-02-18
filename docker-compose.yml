@@ -21,7 +21,7 @@ services:
       MARIADB_PASSWORD: $NS_MARIADB_PASSWORD
       MARIADB_ROOT_PASSWORD: $NS_MARIADB_PASSWORD
     ports:
-      - 3333:$NS_MARIADB_PORT
+      - $NS_MARIADB_EXPOSE_PORT:$NS_MARIADB_PORT
     volumes:
       - ./db/init:/docker-entrypoint-initdb.d
       - ./db/mysql:/var/lib/mysql

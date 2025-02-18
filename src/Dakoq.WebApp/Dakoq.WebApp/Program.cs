@@ -65,7 +65,7 @@ namespace Dakoq.WebApp
                     MySqlConnectionStringBuilder csb = new()
                     {
                         Server = config.GetValue<string>("NS_MARIADB_HOSTNAME"),
-                        Port = uint.TryParse(config.GetValue<string>("NS_MARIADB_PORT"), out var _port) ? _port : default,
+                        Port = uint.TryParse(config.GetValue<string>("NS_MARIADB_EXPOSE_PORT") ?? config.GetValue<string>("NS_MARIADB_PORT"), out var _port) ? _port : default,
                         UserID = config.GetValue<string>("NS_MARIADB_USER"),
                         Password = config.GetValue<string>("NS_MARIADB_PASSWORD"),
                         Database = config.GetValue<string>("NS_MARIADB_DATABASE")
