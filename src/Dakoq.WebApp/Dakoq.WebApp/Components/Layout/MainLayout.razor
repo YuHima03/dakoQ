@@ -1,6 +1,15 @@
 ﻿@inherits LayoutComponentBase
 
-@Body
+<div class="flex flex-col w-full bg-bg-primary">
+    <Dakoq.WebApp.Components.Views.Navigations.Header />
+
+    <div class="flex flex-row items-start">
+        <Dakoq.WebApp.Components.Views.Navigations.SideMenu />
+        <div class="w-full">
+            @Body
+        </div>
+    </div>
+</div>
 
 <div id="blazor-error-ui" data-nosnippet>
     An unhandled error has occurred.
