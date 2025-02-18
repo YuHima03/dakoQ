@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Components.Server;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using MySql.Data.MySqlClient;
+using System.Security.Claims;
 
 namespace Dakoq.WebApp
 {
@@ -28,7 +29,8 @@ namespace Dakoq.WebApp
 
                 // Authentication
                 services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                    .AddCookie(static options => {
+                    .AddCookie(static options =>
+                    {
                         options.LoginPath = "/login";
                         options.LogoutPath = "/logout";
                     });
@@ -83,17 +85,19 @@ namespace Dakoq.WebApp
                 });
 
                 // Database context
-                services.AddDbContextFactory<Repository.RepositoryContext>((services, options) =>
+                services.AddDbContextFactory<Repository.RepositoryContext>(static (services, options) =>
                 {
                     var conf = services.GetRequiredService<IOptions<AppConfiguration>>();
                     options.UseMySQL(conf.Value.DbConnectionString!);
                 });
 
-                services.AddScoped(static s => {
+                services.AddScoped(static s =>
+                {
                     var conf = s.GetRequiredService<IOptions<AppConfiguration>>();
                     var authStateProvider = s.GetRequiredService<AuthenticationStateProvider>();
 
-                    return authStateProvider.GetAuthenticationStateAsync().ContinueWith<AuthUserInfo?>(t => {
+                    return authStateProvider.GetAuthenticationStateAsync().ContinueWith<AuthUserInfo?>(t =>
+                    {
                         var u = t.Result.User;
 
                         string? token = null;
