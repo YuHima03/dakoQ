@@ -1,13 +1,33 @@
 ﻿@page "/"
 @inject NavigationManager Navigation
+@inject RepositoryContext DbContext
+@inject IOptions<AppConfiguration> AppConfig
 
 <PageTitle>dakoQ</PageTitle>
 
 <AuthorizeView>
     <Authorized>
-        Hello!
-        <Dakoq.WebApp.Components.Views.Button IconStart="add" Variant="Views.Button.ButtonVariants.Secondary">
-            ぼたん
-        </Dakoq.WebApp.Components.Views.Button>
+        <div class="flex flex-col gap-y-4 w-full p-4">
+            <Dakoq.WebApp.Components.Views.Common.MainSection SectionTitle="開場中の部屋">
+                <Dakoq.WebApp.Components.Views.Common.ResourceList>
+                    @if (availableRooms is not null)
+                    {
+                        @foreach (var r in availableRooms)
+                        {
+                            <Dakoq.WebApp.Components.Views.EntityView.RoomEntity.RoomListItem RoomId="@r.Id" RoomName="@r.Name" />
+                        }
+                    }
+                </Dakoq.WebApp.Components.Views.Common.ResourceList>
+            </Dakoq.WebApp.Components.Views.Common.MainSection>
+        </div>
     </Authorized>
 </AuthorizeView>
+
+@code {
+    List<Dakoq.Repository.Models.Room>? availableRooms;
+
+    protected override async Task OnInitializedAsync()
+    {
+        availableRooms = await DbContext.GetAvailableRoomsAsync();
+    }
+}

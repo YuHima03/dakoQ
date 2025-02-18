@@ -91,6 +91,7 @@ namespace Dakoq.WebApp
                     options.UseMySQL(conf.Value.DbConnectionString!);
                 });
 
+                // Authenticated user information
                 services.AddScoped(static s =>
                 {
                     var conf = s.GetRequiredService<IOptions<AppConfiguration>>();

@@ -1,0 +1,12 @@
+﻿<div class="flex flex-col gap-y-2 w-full">
+    <h2 class="text-style-heading">@SectionTitle</h2>
+    @ChildContent
+</div>
+
+@code {
+    [Parameter]
+    public string? SectionTitle { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+}

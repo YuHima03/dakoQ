@@ -1,0 +1,19 @@
+﻿<div class="flex flex-row gap-x-4 w-full h-[3.5rem] items-center px-4 py-2">
+    <div class="flex flex-row w-[18.5rem]">
+        <Link href="@($"/rooms/{RoomId}")">
+            @RoomName
+        </Link>
+    </div>
+
+    <Button Variant="Button.ButtonVariants.Secondary" IconStart="login">
+        参加
+    </Button>
+</div>
+
+@code {
+    [Parameter]
+    public Guid RoomId { get; set; }
+
+    [Parameter]
+    public string? RoomName { get; set; }
+}
