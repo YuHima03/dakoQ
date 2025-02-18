@@ -1,9 +1,23 @@
 ﻿@page "/"
+@inject NavigationManager Navigation
 
 <PageTitle>Home</PageTitle>
 
-<main class="flex flex-col m-8 gap-y-2">
-    <h1 class="text-2xl font-bold">Hello, world! ✨</h1>
+<AuthorizeView>
+    <Authorized>
+        Hello!
+    </Authorized>
 
-    Blazor + TailwindCSS
-</main>
+    <NotAuthorized>
+        <div class="w-full">
+            <a href="/api/auth/traq" class="
+                w-fit h-fit flex flex-row py-2 px-8 mx-auto rounded-lg text-white bg-brand-primary select-none cursor-pointer
+                hover:bg-brand-secondary
+            ">
+                <span class="text-style-title">
+                    traQで認証
+                </span>
+            </a>
+        </div>
+    </NotAuthorized>
+</AuthorizeView>
