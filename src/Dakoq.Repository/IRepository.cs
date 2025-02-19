@@ -1,4 +1,4 @@
 ﻿namespace Dakoq.Repository
 {
-    public interface IRepository : IRoomsRepository { }
+    public interface IRepository : IDisposable, IRoomDataSourcesRepository, IRoomsRepository { }
 }
