@@ -1,6 +1,16 @@
 version: 3
 
 tasks:
+  install-libs:
+    cmds:
+      - task: install-dotnet-knoq
+  
+  install-dotnet-knoq:
+    dir: ./libs
+    cmds:
+      - git clone https://github.com/YuHima03/dotnet-knoq.git
+      - dotnet build dotnet-knoq/DotnetKnoq.sln -o dotnet-knoq/bin -f net9.0 -c Release
+
   tailwind-gen:
     dir: ./src/Dakoq.WebApp/Dakoq.WebApp
     cmds:
