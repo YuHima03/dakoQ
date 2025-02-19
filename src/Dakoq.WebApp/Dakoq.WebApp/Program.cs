@@ -24,8 +24,7 @@ namespace Dakoq.WebApp
 
                 // Razor (View)
                 services.AddRazorComponents()
-                    .AddInteractiveServerComponents()
-                    .AddInteractiveWebAssemblyComponents();
+                    .AddInteractiveServerComponents();
 
                 // Authentication
                 services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -171,9 +170,7 @@ namespace Dakoq.WebApp
 
             app.MapStaticAssets();
             app.MapRazorComponents<App>()
-                .AddInteractiveServerRenderMode()
-                .AddInteractiveWebAssemblyRenderMode()
-                .AddAdditionalAssemblies(typeof(Client._Imports).Assembly);
+                .AddInteractiveServerRenderMode();
             app.MapControllers();
 
             app.Run();
