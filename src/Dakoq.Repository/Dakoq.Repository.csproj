@@ -10,4 +10,8 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Dakoq.Domain\Dakoq.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
