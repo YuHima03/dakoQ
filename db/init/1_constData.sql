@@ -1,7 +1,7 @@
 INSERT INTO `room_data_sources` (`id`, `name`, `is_active`) VALUES
-    (1, 'dakoQ', 1),
-    (2, 'knoQ_room', 1),
-    (3, 'knoQ_event', 1);
+    (1, 'Dakoq', 1),
+    (2, 'KnoqRoom', 1),
+    (3, 'KnoqEvent', 1);
 
 INSERT INTO `rooms` (`id`, `name`, `data_source_id`, `alias`, `starts_at`, `ends_at`, `created_at`, `updated_at`) VALUES
     (uuid(), '部室', '1', 'bu', NULL, NULL, now(), now()),
