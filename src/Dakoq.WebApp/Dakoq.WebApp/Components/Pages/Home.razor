@@ -14,7 +14,7 @@
                     {
                         @foreach (var r in availableRooms)
                         {
-                            <Dakoq.WebApp.Components.Views.EntityView.RoomEntity.RoomListItem RoomId="@r.Id" RoomName="@r.Name" />
+                            <Dakoq.WebApp.Components.Views.EntityView.RoomEntity.RoomListItem Room="@r" />
                         }
                     }
                 </Dakoq.WebApp.Components.Views.Common.ResourceList>
