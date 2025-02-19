@@ -19,6 +19,18 @@ namespace Dakoq.WebApp
             {
                 var services = builder.Services;
 
+                services.AddLogging(lb =>
+                {
+                    lb.AddFilter(builder.Environment.IsDevelopment()
+                        ? lv => lv >= LogLevel.Information
+                        : lv => lv >= LogLevel.Warning);
+                    lb.AddSimpleConsole(o =>
+                    {
+                        o.IncludeScopes = true;
+                        o.ColorBehavior = Microsoft.Extensions.Logging.Console.LoggerColorBehavior.Enabled;
+                    });
+                });
+
                 // API controllers
                 services.AddControllers();
 
