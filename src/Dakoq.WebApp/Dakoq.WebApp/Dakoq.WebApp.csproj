@@ -12,6 +12,11 @@
     <DockerfileContext>..\..\..</DockerfileContext>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <ServerGarbageCollection>true</ServerGarbageCollection>
+    <ConcurrentGarbageCollection>true</ConcurrentGarbageCollection>
+  </PropertyGroup>
+  
   <ItemGroup>
     <ProjectReference Include="..\..\Dakoq.Repository\Dakoq.Repository.csproj" />
     <ProjectReference Include="..\Dakoq.WebApp.Client\Dakoq.WebApp.Client.csproj" />
