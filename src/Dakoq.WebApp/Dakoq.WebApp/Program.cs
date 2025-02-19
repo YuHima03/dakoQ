@@ -161,6 +161,12 @@ namespace Dakoq.WebApp
                         };
                     });
                 });
+                services.AddHostedService<Services.KnoqSyncService>();
+                services.Configure<Services.KnoqSyncServiceOptions>(static o =>
+                {
+                    o.FetchInterval = TimeSpan.FromMinutes(5);
+                });
+
                 services.AddHostedService<Services.MemoryMonitorService>();
                 services.Configure<Services.MemoryMonitorServiceOptions>(static o =>
                 {
