@@ -16,7 +16,7 @@ namespace Dakoq.WebApp.Services
 
             while (await timer.WaitForNextTickAsync(stoppingToken))
             {
-                var allocated = GC.GetTotalAllocatedBytes();
+                var allocated = GC.GetTotalMemory(false);
                 _logger.LogDebug("Allocated bytes (approx): {} MiB", (double)allocated / (1024 * 1024));
                 if (allocated >= _options.ThresholdBytes)
                 {
