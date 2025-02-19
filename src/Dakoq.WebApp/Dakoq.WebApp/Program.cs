@@ -161,6 +161,12 @@ namespace Dakoq.WebApp
                         };
                     });
                 });
+                services.AddHostedService<Services.MemoryMonitorService>();
+                services.Configure<Services.MemoryMonitorServiceOptions>(static o =>
+                {
+                    o.CheckInterval = TimeSpan.FromSeconds(10);
+                    o.ThresholdBytes = 100 * 1024 * 1024;
+                });
             }
 
             var app = builder.Build();
