@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Dakoq.Repository.Models
 {
+    [Table("room_data_sources")]
     public sealed class RoomDataSource
     {
         [Column("id")]

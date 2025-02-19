@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Dakoq.Repository.Models
 {
-    [Keyless]
+    [Table("room_participants")]
     public sealed class RoomParticipant
     {
         [Column("room_id")]

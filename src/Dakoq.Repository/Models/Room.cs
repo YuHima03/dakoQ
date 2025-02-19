@@ -4,6 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Dakoq.Repository.Models
 {
+    [Table("rooms")]
     public sealed class Room
     {
         [Column("id")]
