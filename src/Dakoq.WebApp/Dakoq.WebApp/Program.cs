@@ -161,6 +161,13 @@ namespace Dakoq.WebApp
                         };
                     });
                 });
+
+                services.AddSingleton<Task<Knoq.IKnoqApiClient?>>(static async s =>
+                {
+                    var o = s.GetRequiredService<IOptions<AppConfiguration>>().Value;
+                    return await Helpers.KnoqApiClientHelper.CreateClientAsync(o);
+                });
+
                 services.AddHostedService<Services.KnoqSyncService>();
                 services.Configure<Services.KnoqSyncServiceOptions>(static o =>
                 {
