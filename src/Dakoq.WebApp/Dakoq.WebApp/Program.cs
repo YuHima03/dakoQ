@@ -69,7 +69,7 @@ namespace Dakoq.WebApp
                     KnoqAuthenticationInfo knoqAuth = new()
                     {
                         TraqUsername = config.GetValue<string>("TRAQ_USERNAME"),
-                        TraqPassword = config.GetValue<string>("TARQ_PASSWORD")
+                        TraqPassword = config.GetValue<string>("TRAQ_PASSWORD")
                     };
 
                     TraqOAuthClientInfo traqOAuthClient = new()
