@@ -3,7 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Dakoq.Repository
 {
-    public sealed partial class RepositoryContext(DbContextOptions<RepositoryContext> options) : DbContext(options)
+    public sealed partial class RepositoryContext(DbContextOptions<RepositoryContext> options) : DbContext(options), IRepository
     {
         [NotNull]
         public DbSet<Models.Room>? Rooms { get; set; }
