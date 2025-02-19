@@ -22,4 +22,10 @@
     <PackageReference Include="Traq" Version="0.3.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="Knoq">
+      <HintPath>..\..\..\libs\dotnet-knoq\bin\Knoq.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>
