@@ -3,13 +3,13 @@ services:
     build:
       dockerfile: src/Dakoq.WebApp/Dakoq.WebApp/Dockerfile
     ports:
-      - 5050:8080
+      - 8180:8080
     depends_on:
       mariadb:
         condition: service_healthy
     env_file:
       - .env
-    mem_limit: 100m
+    mem_limit: 1g
 
   mariadb:
     image: mariadb:latest
