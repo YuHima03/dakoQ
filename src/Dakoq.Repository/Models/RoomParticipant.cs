@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Dakoq.Repository.Models
@@ -6,6 +6,10 @@ namespace Dakoq.Repository.Models
     [Table("room_participants")]
     public sealed class RoomParticipant
     {
+        [Column("id")]
+        [Key]
+        public Guid Id { get; set; }
+
         [Column("room_id")]
         public Guid RoomId { get; set; }
 
