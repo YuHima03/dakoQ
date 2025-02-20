@@ -27,7 +27,7 @@
 }
 
 .text-style-body {
-    font-family: "Noto Sans JP", serif;
+    font-family: "Noto Sans JP", sans-serif;
     font-size: 1rem;
     line-height: 1.375rem;
     font-optical-sizing: auto;
@@ -36,7 +36,7 @@
 }
 
 .text-style-body-strong {
-    font-family: "Noto Sans JP", serif;
+    font-family: "Noto Sans JP", sans-serif;
     font-size: 1rem;
     line-height: 1.375rem;
     font-optical-sizing: auto;
@@ -45,7 +45,7 @@
 }
 
 .text-style-body-button {
-    font-family: "Noto Sans JP", serif;
+    font-family: "Noto Sans JP", sans-serif;
     font-size: 1rem;
     line-height: 1.375rem;
     font-optical-sizing: auto;
@@ -54,7 +54,7 @@
 }
 
 .text-style-heading {
-    font-family: "Noto Sans JP", serif;
+    font-family: "Noto Sans JP", sans-serif;
     font-size: 1.125rem;
     line-height: 1.5rem;
     font-optical-sizing: auto;
@@ -63,7 +63,7 @@
 }
 
 .text-style-title {
-    font-family: "Noto Sans JP", serif;
+    font-family: "Noto Sans JP", sans-serif;
     font-size: 1.5rem;
     line-height: 2rem;
     font-optical-sizing: auto;
@@ -72,7 +72,7 @@
 }
 
 .text-style-caption {
-    font-family: "Noto Sans JP", serif;
+    font-family: "Noto Sans JP", sans-serif;
     font-size: 0.875rem;
     line-height: 1.125rem;
     font-optical-sizing: auto;
