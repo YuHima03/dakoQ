@@ -1,0 +1,49 @@
+﻿@page "/rooms/{roomId:guid?}"
+@inject RepositoryContext DbContext
+
+@if (RoomData is null)
+{
+    @if (RoomId is not null)
+    {
+        <h2>部屋が見つかりませんでした.</h2>
+    }
+}
+else
+{
+    <div class="flex flex-col w-full max-w-7xl gap-y-4 items-start">
+        <h2 class="text-style-title">
+            @RoomData.Name
+        </h2>
+        <div>
+            @(RoomData.StartsAt?.ToLocalTime().ToString("yyyy/MM/dd HH:mm") ?? "未設定") ~ @(RoomData.EndsAt?.ToLocalTime().ToString("yyyy/MM/dd HH:mm") ?? "未設定")
+        </div>
+        <div>
+            <h3 class="text-style-heading">
+                参加者
+            </h3>
+            <div class="flex flex-col gap-y-2 items-start">
+                @foreach (var uid in Participants ?? [])
+                {
+                    <div>
+                        @uid
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public Guid? RoomId { get; set; }
+
+    Repository.Models.Room? RoomData { get; set; }
+
+    List<Guid>? Participants { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        RoomData = await DbContext.Rooms.Where(r => r.Id == RoomId).SingleOrDefaultAsync();
+        Participants = await DbContext.RoomParticipants.Where(r => r.RoomId == RoomId && r.LeftAt == null).Select(p => p.ParticipantId).ToListAsync();
+    }
+}

@@ -17,7 +17,7 @@
             @if (Participant is not null)
             {
                 <span class="flex flex-row size-fit items-center text-style-caption text-text-secondary">
-                    <span>@Participant.JoinedAt.ToString("yyyy/MM/dd HH:mm")</span>
+                    <span>@Participant.JoinedAt.ToLocalTime().ToString("yyyy/MM/dd HH:mm")</span>
                     <span>入室</span>
                 </span>
             }
