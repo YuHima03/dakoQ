@@ -11,6 +11,7 @@
     --color-bd-primary: #d9d9d9;
     /* Text */
     --color-primary: #1e1e1e;
+    --color-text-secondary: #757575;
     --color-accent: #2b82f4;
     --color-accent-dark: #5ca3ff;
     --color-accent-hover: #3a7cd2;
@@ -32,6 +33,15 @@
     font-optical-sizing: auto;
     font-style: normal;
     font-weight: 400;
+}
+
+.text-style-body-strong {
+    font-family: "Noto Sans JP", serif;
+    font-size: 1rem;
+    line-height: 1.375rem;
+    font-optical-sizing: auto;
+    font-style: medium;
+    font-weight: 500;
 }
 
 .text-style-body-button {
@@ -59,4 +69,13 @@
     font-optical-sizing: auto;
     font-style: bold;
     font-weight: 600;
+}
+
+.text-style-caption {
+    font-family: "Noto Sans JP", serif;
+    font-size: 0.875rem;
+    line-height: 1.125rem;
+    font-optical-sizing: auto;
+    font-style: normal;
+    font-weight: 400;
 }

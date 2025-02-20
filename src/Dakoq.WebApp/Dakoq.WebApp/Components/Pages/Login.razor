@@ -1,4 +1,5 @@
 ﻿@page "/login"
+@layout Layout.NotAuthorizedLayout
 @attribute [AllowAnonymous]
 @inject NavigationManager Navigation
 @rendermode InteractiveServer
@@ -10,11 +11,16 @@
         <RedirectToTop />
     </Authorized>
     <NotAuthorized>
-        <h3>Login</h3>
-
-        <Button Variant="Button.ButtonVariants.Primary" OnClickCallback="RedirectToTraqAuth">
-            traQ で認証
-        </Button>
+        <div class="flex flex-col gap-y-4 w-full items-center p-6">
+            <Button Variant="Button.ButtonVariants.Primary" OnClickCallback="RedirectToTraqAuth">
+                <span class="text-style-body-strong px-4">
+                    traQ で認証
+                </span>
+            </Button>
+            <p class="text-style-caption text-text-secondary">
+                dakoQ の機能を利用するためには、traQ での認証が必要です。
+            </p>
+        </div>
     </NotAuthorized>
 </AuthorizeView>
 
