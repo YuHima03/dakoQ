@@ -168,6 +168,18 @@ namespace Dakoq.WebApp
                     return await Helpers.KnoqApiClientHelper.CreateClientAsync(o);
                 });
 
+                services.AddScoped<Task<Traq.ITraqApiClient?>>(static async s =>
+                {
+                    var u = await s.GetRequiredService<Task<AuthUserInfo?>>()
+                       ?? throw new Exception("The user is not authenticated.");
+                    var o = s.GetRequiredService<IOptions<AppConfiguration>>().Value;
+                    return new Traq.TraqApiClient(Options.Create(new Traq.TraqApiClientOptions()
+                    {
+                        BaseAddress = o.TraqApiBaseAddress?.ToString() ?? "https://q.trap.jp/api/v3",
+                        BearerAuthToken = u.AccessToken
+                    }));
+                });
+
                 services.AddHostedService<Services.KnoqSyncService>();
                 services.Configure<Services.KnoqSyncServiceOptions>(static o =>
                 {
