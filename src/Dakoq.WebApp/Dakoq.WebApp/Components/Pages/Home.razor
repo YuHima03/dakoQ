@@ -7,15 +7,30 @@
 
 <AuthorizeView>
     <Authorized>
-        <div class="flex flex-col gap-y-4 w-full p-4">
+        <div class="flex flex-col gap-y-4 w-full max-w-7xl">
+            @if (JoiningRoom is not null)
+            {
+                <Dakoq.WebApp.Components.Views.Common.MainSection SectionTitle="参加中の部屋">
+                    <Dakoq.WebApp.Components.Views.Common.ResourceList>
+                        <Dakoq.WebApp.Components.Views.EntityView.RoomEntity.RoomListItem Room="@JoiningRoom" IsJoiningRoom="@true" />
+                    </Dakoq.WebApp.Components.Views.Common.ResourceList>
+                </Dakoq.WebApp.Components.Views.Common.MainSection>
+            }
+
             <Dakoq.WebApp.Components.Views.Common.MainSection SectionTitle="開場中の部屋">
                 <Dakoq.WebApp.Components.Views.Common.ResourceList>
-                    @if (availableRooms is not null)
+                    @foreach (var r in CurrentAvailableRooms)
                     {
-                        @foreach (var r in availableRooms)
-                        {
-                            <Dakoq.WebApp.Components.Views.EntityView.RoomEntity.RoomListItem Room="@r" />
-                        }
+                        <Dakoq.WebApp.Components.Views.EntityView.RoomEntity.RoomListItem Room="@r" />
+                    }
+                </Dakoq.WebApp.Components.Views.Common.ResourceList>
+            </Dakoq.WebApp.Components.Views.Common.MainSection>
+
+            <Dakoq.WebApp.Components.Views.Common.MainSection SectionTitle="常設の部屋">
+                <Dakoq.WebApp.Components.Views.Common.ResourceList>
+                    @foreach (var r in PermanentlyAvailableRooms)
+                    {
+                        <Dakoq.WebApp.Components.Views.EntityView.RoomEntity.RoomListItem Room="@r" />
                     }
                 </Dakoq.WebApp.Components.Views.Common.ResourceList>
             </Dakoq.WebApp.Components.Views.Common.MainSection>
@@ -24,10 +39,15 @@
 </AuthorizeView>
 
 @code {
-    List<Dakoq.Repository.Models.Room>? availableRooms;
+    List<Dakoq.Repository.Models.Room>? _availableRooms;
+
+    Dakoq.Repository.Models.Room? JoiningRoom { get; set; }
+
+    IEnumerable<Dakoq.Repository.Models.Room> PermanentlyAvailableRooms => _availableRooms?.Where(r => r.StartsAt is null && r.EndsAt is null).Where(r => r.Id != JoiningRoom?.Id) ?? [];
+    IEnumerable<Dakoq.Repository.Models.Room> CurrentAvailableRooms => _availableRooms?.Where(r => r.StartsAt is not null || r.EndsAt is not null).Where(r => r.Id != JoiningRoom?.Id) ?? [];
 
     protected override async Task OnInitializedAsync()
     {
-        availableRooms = await DbContext.GetAvailableRoomsAsync();
+        _availableRooms = await DbContext.GetAvailableRoomsAsync();
     }
 }
