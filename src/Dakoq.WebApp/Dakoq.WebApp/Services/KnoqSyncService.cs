@@ -66,16 +66,16 @@ namespace Dakoq.WebApp.Services
                                 Id = knoqRoom.RoomId,
                                 Name = $"進捗部屋 ({knoqRoom.Place})",
                                 DataSource = Domain.RoomDataSources.KnoqRoom,
-                                StartsAt = DateTimeOffset.Parse(knoqRoom.TimeStart),
-                                EndsAt = DateTimeOffset.Parse(knoqRoom.TimeEnd)
+                                StartsAt = DateTimeOffset.Parse(knoqRoom.TimeStart).UtcDateTime,
+                                EndsAt = DateTimeOffset.Parse(knoqRoom.TimeEnd).UtcDateTime
                             }, stoppingToken);
                             continue;
                         }
 
                         room.Name = $"進捗部屋 ({knoqRoom.Place})";
-                        room.StartsAt = DateTimeOffset.Parse(knoqRoom.TimeStart);
-                        room.EndsAt = DateTimeOffset.Parse(knoqRoom.TimeEnd);
-                        room.UpdatedAt = DateTimeOffset.Parse(knoqRoom.UpdatedAt);
+                        room.StartsAt = DateTimeOffset.Parse(knoqRoom.TimeStart).UtcDateTime;
+                        room.EndsAt = DateTimeOffset.Parse(knoqRoom.TimeEnd).UtcDateTime;
+                        room.UpdatedAt = DateTimeOffset.Parse(knoqRoom.UpdatedAt).UtcDateTime;
                     }
                 }
                 if (knoqEventSource is not null && todayEvents.Length != 0)
@@ -98,16 +98,16 @@ namespace Dakoq.WebApp.Services
                                 Id = knoqEvent.EventId,
                                 Name = knoqEvent.Name,
                                 DataSource = Domain.RoomDataSources.KnoqEvent,
-                                StartsAt = DateTimeOffset.Parse(knoqEvent.TimeStart),
-                                EndsAt = DateTimeOffset.Parse(knoqEvent.TimeEnd)
+                                StartsAt = DateTimeOffset.Parse(knoqEvent.TimeStart).UtcDateTime,
+                                EndsAt = DateTimeOffset.Parse(knoqEvent.TimeEnd).UtcDateTime
                             }, stoppingToken);
                             continue;
                         }
 
                         room.Name = knoqEvent.Name;
-                        room.StartsAt = DateTimeOffset.Parse(knoqEvent.TimeStart);
-                        room.EndsAt = DateTimeOffset.Parse(knoqEvent.TimeEnd);
-                        room.UpdatedAt = DateTimeOffset.Parse(knoqEvent.UpdatedAt);
+                        room.StartsAt = DateTimeOffset.Parse(knoqEvent.TimeStart).UtcDateTime;
+                        room.EndsAt = DateTimeOffset.Parse(knoqEvent.TimeEnd).UtcDateTime;
+                        room.UpdatedAt = DateTimeOffset.Parse(knoqEvent.UpdatedAt).UtcDateTime;
                     }
                 }
             }

@@ -192,6 +192,8 @@ namespace Dakoq.WebApp
                     o.CheckInterval = TimeSpan.FromSeconds(10);
                     o.ThresholdBytes = 100 * 1024 * 1024;
                 });
+
+                services.AddSingleton(TimeZoneInfo.FindSystemTimeZoneById("Tokyo Standard Time"));
             }
 
             var app = builder.Build();

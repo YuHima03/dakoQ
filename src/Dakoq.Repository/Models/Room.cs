@@ -24,18 +24,18 @@ namespace Dakoq.Repository.Models
 
         [Column("starts_at")]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public DateTimeOffset? StartsAt { get; set; }
+        public DateTime? StartsAt { get; set; }
 
         [Column("ends_at")]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public DateTimeOffset? EndsAt { get; set; }
+        public DateTime? EndsAt { get; set; }
 
         [Column("created_at")]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public DateTimeOffset CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; }
 
         [Column("updated_at")]
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-        public DateTimeOffset UpdatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
     }
 }

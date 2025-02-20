@@ -1,6 +1,7 @@
 ﻿@inject IOptions<AppConfiguration> AppConf
 @inject Repository.RepositoryContext DbContext
 @inject NavigationManager Navigation
+@inject TimeZoneInfo? DisplayTimeZone
 @rendermode InteractiveServer
 
 <div class="flex flex-row gap-x-4 w-full h-[3.5rem] items-center px-4 py-2">
@@ -17,7 +18,7 @@
             @if (Participant is not null)
             {
                 <span class="flex flex-row size-fit items-center text-style-caption text-text-secondary">
-                    <span>@Participant.JoinedAt.ToLocalTime().ToString("yyyy/MM/dd HH:mm")</span>
+                    <span>@JoinedAt!.Value.ToString("yyyy/MM/dd HH:mm")</span>
                     <span>入室</span>
                 </span>
             }
@@ -53,6 +54,8 @@
 
     [Parameter]
     public Guid UserId { get; set; }
+
+    DateTime? JoinedAt => Participant is null ? null : TimeZoneInfo.ConvertTimeFromUtc(Participant.JoinedAt, DisplayTimeZone ?? TimeZoneInfo.Utc);
 
     string? KnoqPageUri
     {

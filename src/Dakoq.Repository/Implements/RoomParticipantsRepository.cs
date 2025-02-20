@@ -11,7 +11,7 @@ namespace Dakoq.Repository
             using var tx = (Database.CurrentTransaction is null) ? (await Database.BeginTransactionAsync(ct)) : null;
             try
             {
-                var utcNow = DateTimeOffset.UtcNow;
+                var utcNow = DateTime.UtcNow;
                 var current = await RoomParticipants.Where(r => r.ParticipantId == userId && r.LeftAt == null).SingleOrDefaultAsync(ct);
                 if (current is not null)
                 {
@@ -48,7 +48,7 @@ namespace Dakoq.Repository
             using var tx = (Database.CurrentTransaction is null) ? (await Database.BeginTransactionAsync(ct)) : null;
             try
             {
-                var utcNow = DateTimeOffset.UtcNow;
+                var utcNow = DateTime.UtcNow;
                 var current = await RoomParticipants.Where(r => r.ParticipantId == userId && r.LeftAt == null).SingleOrDefaultAsync(ct)
                     ?? throw new SqlRowNotFoundException();
 

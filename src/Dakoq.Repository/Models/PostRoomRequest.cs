@@ -10,8 +10,8 @@
 
         public string? Alias { get; set; }
 
-        public DateTimeOffset? StartsAt { get; set; }
+        public DateTime? StartsAt { get; set; }
 
-        public DateTimeOffset? EndsAt { get; set; }
+        public DateTime? EndsAt { get; set; }
     }
 }
