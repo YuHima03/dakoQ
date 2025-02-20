@@ -1,4 +1,7 @@
 ﻿@inject IOptions<AppConfiguration> AppConf
+@inject Repository.RepositoryContext DbContext
+@inject NavigationManager Navigation
+@rendermode InteractiveServer
 
 <div class="flex flex-row gap-x-4 w-full h-[3.5rem] items-center px-4 py-2">
     <div class="flex flex-row w-[18.5rem]">
@@ -11,16 +14,32 @@
     </div>
     <div class="flex flex-row w-full items-center">
         <div class="flex flex-row grow">
-            あいうえお
+            @if (Participant is not null)
+            {
+                <span class="flex flex-row size-fit items-center text-style-caption text-text-secondary">
+                    <span>@Participant.JoinedAt.ToString("yyyy/MM/dd HH:mm")</span>
+                    <span>入室</span>
+                </span>
+            }
         </div>
         <div class="flex flex-row gap-x-2 w-fit items-center">
             @if (Room is not null && Room.DataSourceId != 1)
             {
                 <ViewInKnoqButton Href="@KnoqPageUri" />
             }
-            <Button Variant="Button.ButtonVariants.Secondary" IconStart="login">
-                参加
-            </Button>
+
+            @if (Participant is not null)
+            {
+                <Button Variant="Button.ButtonVariants.Danger" IconStart="logout" OnClickCallback="LeaveFromRoomAsync">
+                    退出
+                </Button>
+            }
+            else
+            {
+                <Button Variant="Button.ButtonVariants.Secondary" IconStart="login" OnClickCallback="() => JoinToRoomAsync(Room!.Id)">
+                    参加
+                </Button>
+            }
         </div>
     </div>
 </div>
@@ -30,7 +49,10 @@
     public Repository.Models.Room? Room { get; set; }
 
     [Parameter]
-    public bool IsJoiningRoom { get; set; }
+    public Repository.Models.RoomParticipant? Participant { get; set; }
+
+    [Parameter]
+    public Guid UserId { get; set; }
 
     string? KnoqPageUri
     {
@@ -55,5 +77,17 @@
             }
             return null;
         }
+    }
+
+    async Task JoinToRoomAsync(Guid roomId)
+    {
+        _ = await DbContext.JoinToRoomAsync(UserId, roomId);
+        Navigation.Refresh();
+    }
+
+    async Task LeaveFromRoomAsync()
+    {
+        _ = await DbContext.LeaveFromRoomAsync(UserId);
+        Navigation.Refresh();
     }
 }

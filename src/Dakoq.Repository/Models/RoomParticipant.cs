@@ -18,7 +18,7 @@ namespace Dakoq.Repository.Models
 
         [Column("joined_at")]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public DateTimeOffset? JoinedAt { get; set; }
+        public DateTimeOffset JoinedAt { get; set; }
 
         [Column("left_at")]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
