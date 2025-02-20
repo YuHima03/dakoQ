@@ -1,4 +1,5 @@
-﻿using Dakoq.Repository.Models;
+﻿using Dakoq.Repository.Exceptions;
+using Dakoq.Repository.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using System.Data.SqlTypes;
@@ -58,7 +59,7 @@ namespace Dakoq.WebApp.Services
                                 continue;
                             }
                         }
-                        catch (SqlNotFilledException)
+                        catch (SqlRowNotFoundException)
                         {
                             _ = await repo.PostRoomAsync(new()
                             {
@@ -90,7 +91,7 @@ namespace Dakoq.WebApp.Services
                                 continue;
                             }
                         }
-                        catch (SqlNotFilledException)
+                        catch (SqlRowNotFoundException)
                         {
                             _ = await repo.PostRoomAsync(new()
                             {
