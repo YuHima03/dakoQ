@@ -1,1 +1,81 @@
 @import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+    /* Background */
+    --color-bg-primary: #ffffff;
+    --color-bg-primary-hover: #f5f5f5;
+    --color-bg-secondary: #f5f5f5;
+    /* Border */
+    --color-bd-primary: #d9d9d9;
+    /* Text */
+    --color-primary: #1e1e1e;
+    --color-text-secondary: #757575;
+    --color-accent: #2b82f4;
+    --color-accent-dark: #5ca3ff;
+    --color-accent-hover: #3a7cd2;
+    --color-accent-light-hover: rgba(43, 130, 244, 0.1);
+    --color-brand-primary: #1a1a1a;
+    --color-brand-secondary: #4a4a4a;
+    --color-brand-knoq: #009688;
+    --color-brand-knoq-dark: #19aea0;
+    --color-brand-knoq-light-hover: rgba(0, 150, 136, 0.1);
+    --color-danger: #900b09;
+    --color-danger-dark: #fdd3d0;
+    --color-danger-light-hover: rgba(236, 34, 31, 0.1);
+}
+
+.text-style-body {
+    font-family: "Noto Sans JP", sans-serif;
+    font-size: 1rem;
+    line-height: 1.375rem;
+    font-optical-sizing: auto;
+    font-style: normal;
+    font-weight: 400;
+}
+
+.text-style-body-strong {
+    font-family: "Noto Sans JP", sans-serif;
+    font-size: 1rem;
+    line-height: 1.375rem;
+    font-optical-sizing: auto;
+    font-style: medium;
+    font-weight: 500;
+}
+
+.text-style-body-button {
+    font-family: "Noto Sans JP", sans-serif;
+    font-size: 1rem;
+    line-height: 1.375rem;
+    font-optical-sizing: auto;
+    font-style: medium;
+    font-weight: 500;
+}
+
+.text-style-heading {
+    font-family: "Noto Sans JP", sans-serif;
+    font-size: 1.125rem;
+    line-height: 1.5rem;
+    font-optical-sizing: auto;
+    font-style: bold;
+    font-weight: 600;
+}
+
+.text-style-title {
+    font-family: "Noto Sans JP", sans-serif;
+    font-size: 1.5rem;
+    line-height: 2rem;
+    font-optical-sizing: auto;
+    font-style: bold;
+    font-weight: 600;
+}
+
+.text-style-caption {
+    font-family: "Noto Sans JP", sans-serif;
+    font-size: 0.875rem;
+    line-height: 1.125rem;
+    font-optical-sizing: auto;
+    font-style: normal;
+    font-weight: 400;
+}

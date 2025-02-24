@@ -1,0 +1,30 @@
+﻿@inject NavigationManager Navigation
+@inject Task<AuthUserInfo?> UserInfoProvider
+@inject IOptions<AppConfiguration> AppConfig
+@rendermode InteractiveServer
+
+<div class="w-full h-[4rem] px-6 flex flex-row gap-x-6 items-center justify-between">
+    <span class="text-2xl font-bold">
+        dakoQ
+    </span>
+    @if (userIconFileUri is not null)
+    {
+        <span class="w-fit h-fit rounded-full overflow-hidden">
+            <img src="@userIconFileUri" width="40" height="40" alt="" />
+        </span>
+    }
+</div>
+
+@code {
+    string? userIconFileUri { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (UserInfoProvider is not null && await UserInfoProvider is not null)
+        {
+            // User is logged in.
+            var userInfo = UserInfoProvider.Result!;
+            userIconFileUri = new Uri(AppConfig.Value.TraqApiBaseAddress!, $"public/icon/{userInfo.Name}").ToString();
+        }
+    }
+}

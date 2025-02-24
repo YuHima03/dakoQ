@@ -3,13 +3,13 @@ services:
     build:
       dockerfile: src/Dakoq.WebApp/Dakoq.WebApp/Dockerfile
     ports:
-      - 5050:8080
+      - 8180:8080
     depends_on:
       mariadb:
         condition: service_healthy
     env_file:
       - .env
-    mem_limit: 100m
+    mem_limit: 1g
 
   mariadb:
     image: mariadb:latest
@@ -21,7 +21,7 @@ services:
       MARIADB_PASSWORD: $NS_MARIADB_PASSWORD
       MARIADB_ROOT_PASSWORD: $NS_MARIADB_PASSWORD
     ports:
-      - 3333:$NS_MARIADB_PORT
+      - $NS_MARIADB_EXPOSE_PORT:$NS_MARIADB_PORT
     volumes:
       - ./db/init:/docker-entrypoint-initdb.d
       - ./db/mysql:/var/lib/mysql
@@ -32,3 +32,10 @@ services:
       retries: 10
       start_period: 1s
     mem_limit: 1g
+
+  adminer:
+    image: adminer:latest
+    restart: always
+    ports:
+        - 8088:8080
+    mem_limit: 256m

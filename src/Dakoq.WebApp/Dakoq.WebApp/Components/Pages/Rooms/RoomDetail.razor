@@ -1,0 +1,82 @@
+﻿@page "/rooms/{roomId:guid?}"
+@inject RepositoryContext DbContext
+@inject Task<Traq.ITraqApiClient> TraqClientProvider
+@inject IOptions<AppConfiguration> AppConfig
+@inject TimeZoneInfo? DisplayTimeZone
+
+@if (RoomData is null)
+{
+    @if (RoomId is not null)
+    {
+        <h2>部屋が見つかりませんでした.</h2>
+    }
+}
+else
+{
+    <div class="flex flex-col w-full max-w-7xl gap-y-4 items-start">
+        <h2 class="text-style-title">
+            @RoomData.Name
+        </h2>
+        <div>
+            @(StartsAt?.ToString("yyyy/MM/dd HH:mm") ?? "未設定") ~ @(EndsAt?.ToString("yyyy/MM/dd HH:mm") ?? "未設定")
+        </div>
+        <div class="flex flex-col gap-y-2 items-start">
+            <h3 class="text-style-heading">
+                参加者
+            </h3>
+            @if (ParticipantUsers.Any())
+            {
+                <div class="flex flex-col gap-y-2 items-start">
+                    @foreach (var u in ParticipantUsers)
+                    {
+                        <div class="flex flex-row gap-x-2 items-center">
+                            <span class="w-fit h-fit rounded-full overflow-hidden">
+                                <img src="@(Helpers.TraqApiClientHelper.GetIconUrl(AppConfig.Value, u.Name))" width="40" height="40" alt="" />
+                            </span>
+                            <span>
+                                @u.Name
+                            </span>
+                        </div>
+                    }
+                </div>
+            }
+            else{
+                <span>
+                    参加者はいません。
+                </span>
+            }
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public Guid? RoomId { get; set; }
+
+    Repository.Models.Room? RoomData { get; set; }
+
+    Traq.ITraqApiClient? TraqApiClient { get; set; }
+
+    List<Guid>? Participants { get; set; }
+
+    IEnumerable<Traq.Model.User> ParticipantUsers => Participants?.Select(p => TraqUsers[p]) ?? [];
+
+    Dictionary<Guid, Traq.Model.User> TraqUsers = [];
+
+    DateTime? StartsAt => RoomData?.StartsAt is null ? null : TimeZoneInfo.ConvertTimeFromUtc(RoomData.StartsAt.Value, DisplayTimeZone ?? TimeZoneInfo.Utc);
+    DateTime? EndsAt => RoomData?.EndsAt is null ? null : TimeZoneInfo.ConvertTimeFromUtc(RoomData.EndsAt.Value, DisplayTimeZone ?? TimeZoneInfo.Utc);
+
+    protected override async Task OnInitializedAsync()
+    {
+        RoomData = await DbContext.Rooms.Where(r => r.Id == RoomId).SingleOrDefaultAsync();
+        TraqApiClient = await TraqClientProvider;
+        Participants = await DbContext.RoomParticipants.Where(r => r.RoomId == RoomId && r.LeftAt == null).Select(p => p.ParticipantId).ToListAsync();
+
+        if (TraqApiClient is null)
+        {
+            throw new Exception("Failed to get traQ API client.");
+        }
+
+        TraqUsers = (await TraqApiClient.UserApi.GetUsersAsync()).ToDictionary(u => u.Id);
+    }
+}

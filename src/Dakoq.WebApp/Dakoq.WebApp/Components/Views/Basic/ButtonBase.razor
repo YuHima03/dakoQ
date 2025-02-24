@@ -1,0 +1,32 @@
+﻿<span class="flex size-fit p-2">
+    <ButtonConcept>
+        <IconStart>
+            @if (!string.IsNullOrWhiteSpace(IconStart))
+            {
+                <Icon Name="@IconStart" />
+            }
+        </IconStart>
+        <ChildContent>
+            <span class="size-fit flex px-1">
+                @ChildContent
+            </span>
+        </ChildContent>
+        <IconEnd>
+            @if (!string.IsNullOrWhiteSpace(IconEnd))
+            {
+                <Icon Name="@IconEnd" />
+            }
+        </IconEnd>
+    </ButtonConcept>
+</span>
+
+@code {
+    [Parameter]
+    public string? IconStart { get; set; }
+
+    [Parameter]
+    public string? IconEnd { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+}

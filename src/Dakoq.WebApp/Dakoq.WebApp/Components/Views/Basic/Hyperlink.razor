@@ -1,0 +1,36 @@
+﻿<a @attributes="Attributes" class="flex flex-row size-fit text-accent text-style-body-button truncate
+               hover:text-accent-hover hover:underline hover:decoration-solid">
+    <ButtonConcept>
+        <IconStart>
+            @if (!string.IsNullOrWhiteSpace(IconStart))
+            {
+                <Icon Name="@IconStart" />
+            }
+        </IconStart>
+        <ChildContent>
+            <span class="container truncate">
+                @ChildContent
+            </span>
+        </ChildContent>
+        <IconEnd>
+            @if (!string.IsNullOrWhiteSpace(IconEnd))
+            {
+                <Icon Name="@IconEnd" />
+            }
+        </IconEnd>
+    </ButtonConcept>
+</a>
+
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public string? IconStart { get; set; }
+
+    [Parameter]
+    public string? IconEnd { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? Attributes { get; set; }
+}

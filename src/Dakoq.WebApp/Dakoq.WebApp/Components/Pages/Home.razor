@@ -1,9 +1,72 @@
 ﻿@page "/"
+@inject NavigationManager Navigation
+@inject RepositoryContext DbContext
+@inject IOptions<AppConfiguration> AppConfig
+@inject Task<AuthUserInfo?> UserInfoProvider
 
-<PageTitle>Home</PageTitle>
+<PageTitle>dakoQ</PageTitle>
 
-<main class="flex flex-col m-8 gap-y-2">
-    <h1 class="text-2xl font-bold">Hello, world! ✨</h1>
+<AuthorizeView>
+    <Authorized>
+        <div class="flex flex-col gap-y-4 w-full max-w-7xl">
+            @if (JoiningRoom is not null)
+            {
+                <Dakoq.WebApp.Components.Views.Common.MainSection SectionTitle="参加中の部屋">
+                    <Dakoq.WebApp.Components.Views.Common.ResourceList>
+                        <Dakoq.WebApp.Components.Views.EntityView.RoomEntity.RoomListItem UserId="@UserInfo!.Id" Room="@JoiningRoom.Value.Item2" Participant="@JoiningRoom.Value.Item1" />
+                    </Dakoq.WebApp.Components.Views.Common.ResourceList>
+                </Dakoq.WebApp.Components.Views.Common.MainSection>
+            }
 
-    Blazor + TailwindCSS
-</main>
+            @if (CurrentAvailableRooms.Any())
+            {
+                <Dakoq.WebApp.Components.Views.Common.MainSection SectionTitle="開場中の部屋">
+                    <Dakoq.WebApp.Components.Views.Common.ResourceList>
+                        @foreach (var r in CurrentAvailableRooms)
+                        {
+                            <Dakoq.WebApp.Components.Views.EntityView.RoomEntity.RoomListItem UserId="@UserInfo!.Id" Room="@r" />
+                        }
+                    </Dakoq.WebApp.Components.Views.Common.ResourceList>
+                </Dakoq.WebApp.Components.Views.Common.MainSection>
+            }
+
+            @if (PermanentlyAvailableRooms.Any())
+            {
+                <Dakoq.WebApp.Components.Views.Common.MainSection SectionTitle="常設の部屋">
+                    <Dakoq.WebApp.Components.Views.Common.ResourceList>
+                        @foreach (var r in PermanentlyAvailableRooms)
+                        {
+                            <Dakoq.WebApp.Components.Views.EntityView.RoomEntity.RoomListItem UserId="@UserInfo!.Id" Room="@r" />
+                        }
+                    </Dakoq.WebApp.Components.Views.Common.ResourceList>
+                </Dakoq.WebApp.Components.Views.Common.MainSection>
+            }
+        </div>
+    </Authorized>
+</AuthorizeView>
+
+@code {
+    List<Dakoq.Repository.Models.Room>? _availableRooms;
+
+    AuthUserInfo? UserInfo { get; set; }
+    (Dakoq.Repository.Models.RoomParticipant, Dakoq.Repository.Models.Room)? JoiningRoom { get; set; }
+
+    IEnumerable<Dakoq.Repository.Models.Room> PermanentlyAvailableRooms => _availableRooms?.Where(r => r.StartsAt is null && r.EndsAt is null).Where(r => r.Id != JoiningRoom?.Item2.Id) ?? [];
+    IEnumerable<Dakoq.Repository.Models.Room> CurrentAvailableRooms => _availableRooms?.Where(r => r.StartsAt is not null || r.EndsAt is not null).Where(r => r.Id != JoiningRoom?.Item2.Id) ?? [];
+
+    protected override async Task OnInitializedAsync()
+    {
+        _availableRooms = await DbContext.GetAvailableRoomsAsync();
+        UserInfo = await UserInfoProvider;
+        if (UserInfo is null)
+        {
+            return;
+        }
+
+        var participation = await DbContext.RoomParticipants.Where(r => r.ParticipantId == UserInfo.Id && r.LeftAt == null).SingleOrDefaultAsync();
+        if (participation is not null)
+        {
+            JoiningRoom = (participation, await DbContext.Rooms.Where(r => r.Id == participation.RoomId).SingleAsync());
+        }
+    }
+}

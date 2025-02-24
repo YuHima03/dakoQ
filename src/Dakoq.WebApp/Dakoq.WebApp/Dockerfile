@@ -6,9 +6,17 @@ USER $APP_UID
 WORKDIR /app
 EXPOSE 8080
 
+# Build dotnet-knoq by @YuHima03
+FROM mcr.microsoft.com/dotnet/sdk:9.0 AS dotnet_knoq
+WORKDIR /libs
+RUN git clone https://github.com/YuHima03/dotnet-knoq.git
+WORKDIR /libs/dotnet-knoq
+RUN dotnet build -o bin -f net9.0 -c Release
+
 # Prepare for build.
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS prepare
 WORKDIR /src
+COPY --from=dotnet_knoq /libs libs/
 COPY ["src/Dakoq.WebApp/Dakoq.WebApp/Dakoq.WebApp.csproj", "src/Dakoq.WebApp/Dakoq.WebApp/"]
 COPY ["src/Dakoq.WebApp/Dakoq.WebApp.Client/Dakoq.WebApp.Client.csproj", "src/Dakoq.WebApp/Dakoq.WebApp.Client/"]
 RUN dotnet restore "./src/Dakoq.WebApp/Dakoq.WebApp/Dakoq.WebApp.csproj"

@@ -1,0 +1,48 @@
+﻿<button class="w-fit h-fit flex rounded-lg overflow-hidden select-none hover:cursor-pointer" @onclick="OnClickCallback">
+    @if (Variant == ButtonVariants.Primary)
+    {
+        <span class="
+            text-white bg-brand-primary
+            hover:bg-brand-secondary">
+            <ButtonBase IconStart="@IconStart" IconEnd="@IconEnd" ChildContent="@ChildContent" />
+        </span>
+    }
+    @if (Variant == ButtonVariants.Secondary)
+    {
+        <span class="
+            text-accent
+            hover:text-accent-hover hover:bg-accent-light-hover">
+            <ButtonBase IconStart="@IconStart" IconEnd="@IconEnd" ChildContent="@ChildContent" />
+        </span>
+    }
+    @if (Variant == ButtonVariants.Danger)
+    {
+        <span class="
+            text-danger
+            hover:bg-danger-light-hover">
+            <ButtonBase IconStart="@IconStart" IconEnd="@IconEnd" ChildContent="@ChildContent" />
+        </span>
+    }
+</button>
+
+@code {
+    [Parameter]
+    public string? IconStart { get; set; }
+
+    [Parameter]
+    public string? IconEnd { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public ButtonVariants? Variant { get; set; } = ButtonVariants.Primary;
+
+    [Parameter]
+    public EventCallback<MouseEventArgs> OnClickCallback { get; set; }
+
+    public enum ButtonVariants : byte
+    {
+        Primary, Secondary, Danger
+    }
+}

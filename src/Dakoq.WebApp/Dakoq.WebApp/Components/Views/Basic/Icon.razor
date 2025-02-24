@@ -1,0 +1,19 @@
+﻿@if (Source == IconSource.MaterialSymbols)
+{
+    <span class="select-none material-symbols-rounded">
+        @Name
+    </span>
+}
+
+@code {
+    [Parameter]
+    public string? Name { get; set; }
+
+    [Parameter]
+    public IconSource Source { get; set; } = IconSource.MaterialSymbols;
+
+    public enum IconSource
+    {
+        MaterialSymbols
+    }
+}

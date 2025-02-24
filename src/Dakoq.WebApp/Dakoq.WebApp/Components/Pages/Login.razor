@@ -1,0 +1,35 @@
+﻿@page "/login"
+@layout Layout.NotAuthorizedLayout
+@attribute [AllowAnonymous]
+@inject NavigationManager Navigation
+@rendermode InteractiveServer
+
+<PageTitle>ログイン | dakoQ</PageTitle>
+
+<AuthorizeView>
+    <Authorized>
+        <RedirectToTop />
+    </Authorized>
+    <NotAuthorized>
+        <div class="flex flex-col gap-y-4 w-full items-center p-6">
+            <Button Variant="Button.ButtonVariants.Primary" OnClickCallback="RedirectToTraqAuth">
+                <span class="text-style-body-strong px-4">
+                    traQ で認証
+                </span>
+            </Button>
+            <p class="text-style-caption text-text-secondary">
+                dakoQ の機能を利用するためには、traQ での認証が必要です。
+            </p>
+        </div>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    [SupplyParameterFromQuery(Name = "ReturnQuery")]
+    public string? ReturnUrl { get; set; }
+
+    void RedirectToTraqAuth(MouseEventArgs e)
+    {
+        Navigation.NavigateTo("/api/auth/traq", forceLoad: true);
+    }
+}
