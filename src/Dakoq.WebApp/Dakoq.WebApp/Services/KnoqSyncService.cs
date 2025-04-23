@@ -111,7 +111,7 @@ namespace Dakoq.WebApp.Services
 
     public sealed class KnoqSyncServiceOptions
     {
-        public static KnoqSyncServiceOptions Default = new() { FetchInterval = TimeSpan.FromMinutes(5) };
+        public readonly static KnoqSyncServiceOptions Default = new() { FetchInterval = TimeSpan.FromMinutes(5) };
 
         public TimeSpan FetchInterval { get; set; }
     }
