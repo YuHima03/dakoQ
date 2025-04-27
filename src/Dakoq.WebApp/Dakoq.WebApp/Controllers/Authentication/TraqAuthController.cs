@@ -14,21 +14,18 @@ namespace Dakoq.WebApp.Controllers.Authentication
         ILogger<TraqAuthController> logger
         ) : ControllerBase
     {
-        readonly IOptions<AppConfiguration> _config = config;
-        readonly IHttpClientFactory _httpClientFactory = httpClientFactory;
-
         [Route("[action]")]
         [HttpGet]
         public async Task<IActionResult> CallbackAsync([FromQuery(Name = "code")] string? code)
         {
-            var conf = _config.Value;
+            var conf = config.Value;
             var traqOAuthClient = conf.TraqOAuthClientInfo;
             if (traqOAuthClient?.ClientId is null)
             {
                 return StatusCode(StatusCodes.Status503ServiceUnavailable);
             }
 
-            Traq.Api.IOauth2ApiAsync traqOAuthApi = new Traq.Api.Oauth2Api(_httpClientFactory.CreateClient("traQ"));
+            Traq.Api.IOauth2ApiAsync traqOAuthApi = new Traq.Api.Oauth2Api(httpClientFactory.CreateClient("traQ"));
             var res = await traqOAuthApi.PostOAuth2TokenWithHttpInfoAsync(
                 grantType: "authorization_code",
                 clientId: traqOAuthClient.ClientId,
@@ -95,7 +92,7 @@ namespace Dakoq.WebApp.Controllers.Authentication
         [HttpGet]
         public IActionResult IndexAsync()
         {
-            var conf = _config.Value;
+            var conf = config.Value;
 
             if (conf.TraqApiBaseAddress is null || conf.TraqOAuthClientInfo?.ClientId is null)
             {
