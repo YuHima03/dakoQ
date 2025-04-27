@@ -55,7 +55,12 @@ namespace Dakoq.WebApp.Controllers.Authentication
 
             await HttpContext.SignInAsync(
                 CookieAuthenticationDefaults.AuthenticationScheme,
-                new ClaimsPrincipal(identity)
+                new ClaimsPrincipal(identity),
+                new AuthenticationProperties
+                {
+                    IsPersistent = true,
+                    ExpiresUtc = DateTimeOffset.UtcNow.AddSeconds(Math.Min(token.ExpiresIn, TimeSpan.SecondsPerDay * 7)), // Expires in 7 days at most.
+                }
             );
             return Redirect("/");
         }
