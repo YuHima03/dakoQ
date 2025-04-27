@@ -8,7 +8,11 @@ namespace Dakoq.WebApp.Controllers.Authentication
 {
     [ApiController]
     [Route("/api/auth/traq")]
-    public class TraqAuthController(IOptions<AppConfiguration> config, IHttpClientFactory httpClientFactory) : ControllerBase
+    public class TraqAuthController(
+        IOptions<AppConfiguration> config,
+        IHttpClientFactory httpClientFactory,
+        ILogger<TraqAuthController> logger
+        ) : ControllerBase
     {
         readonly IOptions<AppConfiguration> _config = config;
         readonly IHttpClientFactory _httpClientFactory = httpClientFactory;
@@ -24,7 +28,7 @@ namespace Dakoq.WebApp.Controllers.Authentication
                 return StatusCode(StatusCodes.Status503ServiceUnavailable);
             }
 
-            Traq.Api.Oauth2Api traqOAuthApi = new(_httpClientFactory.CreateClient("traQ"));
+            Traq.Api.IOauth2ApiAsync traqOAuthApi = new Traq.Api.Oauth2Api(_httpClientFactory.CreateClient("traQ"));
             var res = await traqOAuthApi.PostOAuth2TokenWithHttpInfoAsync(
                 grantType: "authorization_code",
                 clientId: traqOAuthClient.ClientId,
@@ -36,12 +40,34 @@ namespace Dakoq.WebApp.Controllers.Authentication
             }
 
             var token = res.Data;
-            Traq.TraqApiClient traqClient = new(Options.Create(new Traq.TraqApiClientOptions()
+            if (token.TokenType != "Bearer")
+            {
+                logger.LogError("Invalid token type: {TokenType}", token.TokenType);
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+
+            Traq.ITraqApiClient traqClient = new Traq.TraqApiClient(Options.Create(new Traq.TraqApiClientOptions()
             {
                 BaseAddress = conf.TraqApiBaseAddress?.ToString() ?? "",
                 BearerAuthToken = token.AccessToken
             }));
-            var traqUser = await traqClient.MeApi.GetMeAsync();
+
+            Traq.Model.MyUserDetail traqUser;
+            try
+            {
+                traqUser = await traqClient.MeApi.GetMeAsync();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "Failed to get user info.");
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+
+            if (token.AccessToken is null)
+            {
+                logger.LogError("Access token is null");
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
 
             ClaimsIdentity identity = new(
                 claims: [
