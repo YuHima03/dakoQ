@@ -25,7 +25,7 @@ namespace Dakoq.WebApp.Controllers.Authentication
                 return StatusCode(StatusCodes.Status503ServiceUnavailable);
             }
 
-            Traq.Api.IOauth2ApiAsync traqOAuthApi = new Traq.Api.Oauth2Api(httpClientFactory.CreateClient("traQ"));
+            Traq.Api.Oauth2Api traqOAuthApi = new(httpClientFactory.CreateClient("traQ"));
             var res = await traqOAuthApi.PostOAuth2TokenWithHttpInfoAsync(
                 grantType: "authorization_code",
                 clientId: traqOAuthClient.ClientId,
