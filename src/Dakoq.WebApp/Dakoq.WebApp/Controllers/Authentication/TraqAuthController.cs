@@ -8,23 +8,24 @@ namespace Dakoq.WebApp.Controllers.Authentication
 {
     [ApiController]
     [Route("/api/auth/traq")]
-    public class TraqAuthController(IOptions<AppConfiguration> config, IHttpClientFactory httpClientFactory) : ControllerBase
+    public class TraqAuthController(
+        IOptions<AppConfiguration> config,
+        IHttpClientFactory httpClientFactory,
+        ILogger<TraqAuthController> logger
+        ) : ControllerBase
     {
-        readonly IOptions<AppConfiguration> _config = config;
-        readonly IHttpClientFactory _httpClientFactory = httpClientFactory;
-
         [Route("[action]")]
         [HttpGet]
         public async Task<IActionResult> CallbackAsync([FromQuery(Name = "code")] string? code)
         {
-            var conf = _config.Value;
+            var conf = config.Value;
             var traqOAuthClient = conf.TraqOAuthClientInfo;
             if (traqOAuthClient?.ClientId is null)
             {
                 return StatusCode(StatusCodes.Status503ServiceUnavailable);
             }
 
-            Traq.Api.Oauth2Api traqOAuthApi = new(_httpClientFactory.CreateClient("traQ"));
+            Traq.Api.Oauth2Api traqOAuthApi = new(httpClientFactory.CreateClient("traQ"));
             var res = await traqOAuthApi.PostOAuth2TokenWithHttpInfoAsync(
                 grantType: "authorization_code",
                 clientId: traqOAuthClient.ClientId,
@@ -36,12 +37,34 @@ namespace Dakoq.WebApp.Controllers.Authentication
             }
 
             var token = res.Data;
-            Traq.TraqApiClient traqClient = new(Options.Create(new Traq.TraqApiClientOptions()
+            if (token.TokenType != "Bearer")
+            {
+                logger.LogError("Invalid token type: {TokenType}", token.TokenType);
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+
+            Traq.ITraqApiClient traqClient = new Traq.TraqApiClient(Options.Create(new Traq.TraqApiClientOptions()
             {
                 BaseAddress = conf.TraqApiBaseAddress?.ToString() ?? "",
                 BearerAuthToken = token.AccessToken
             }));
-            var traqUser = await traqClient.MeApi.GetMeAsync();
+
+            Traq.Model.MyUserDetail traqUser;
+            try
+            {
+                traqUser = await traqClient.MeApi.GetMeAsync();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "Failed to get user info.");
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+
+            if (token.AccessToken is null)
+            {
+                logger.LogError("Access token is null");
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
 
             ClaimsIdentity identity = new(
                 claims: [
@@ -55,7 +78,12 @@ namespace Dakoq.WebApp.Controllers.Authentication
 
             await HttpContext.SignInAsync(
                 CookieAuthenticationDefaults.AuthenticationScheme,
-                new ClaimsPrincipal(identity)
+                new ClaimsPrincipal(identity),
+                new AuthenticationProperties
+                {
+                    IsPersistent = true,
+                    ExpiresUtc = DateTimeOffset.UtcNow.AddSeconds(Math.Min(token.ExpiresIn, TimeSpan.SecondsPerDay * 7)), // Expires in 7 days at most.
+                }
             );
             return Redirect("/");
         }
@@ -64,7 +92,7 @@ namespace Dakoq.WebApp.Controllers.Authentication
         [HttpGet]
         public IActionResult IndexAsync()
         {
-            var conf = _config.Value;
+            var conf = config.Value;
 
             if (conf.TraqApiBaseAddress is null || conf.TraqOAuthClientInfo?.ClientId is null)
             {

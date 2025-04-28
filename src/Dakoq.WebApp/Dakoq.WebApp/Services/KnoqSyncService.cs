@@ -8,18 +8,13 @@ namespace Dakoq.WebApp.Services
 {
     public sealed class KnoqSyncService(IServiceProvider services) : BackgroundService
     {
-        readonly Task<Knoq.IKnoqApiClient?> _knoq = services.GetRequiredService<Task<Knoq.IKnoqApiClient?>>();
+        readonly Knoq.IKnoqApiClient _knoq = services.GetRequiredService<Knoq.IKnoqApiClient>();
         readonly KnoqSyncServiceOptions _options = services.GetService<IOptions<KnoqSyncServiceOptions>>()?.Value ?? KnoqSyncServiceOptions.Default;
         readonly IDbContextFactory<Repository.RepositoryContext> _repo = services.GetRequiredService<IDbContextFactory<Repository.RepositoryContext>>();
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            using var knoq = await _knoq;
-            if (knoq is null)
-            {
-                throw new Exception("The knoQ API client is null.");
-            }
-
+            var knoq = _knoq;
             using Repository.IRepository repo = await _repo.CreateDbContextAsync(stoppingToken);
             using PeriodicTimer timer = new(_options.FetchInterval);
 
@@ -116,7 +111,7 @@ namespace Dakoq.WebApp.Services
 
     public sealed class KnoqSyncServiceOptions
     {
-        public static KnoqSyncServiceOptions Default = new() { FetchInterval = TimeSpan.FromMinutes(5) };
+        public readonly static KnoqSyncServiceOptions Default = new() { FetchInterval = TimeSpan.FromMinutes(5) };
 
         public TimeSpan FetchInterval { get; set; }
     }

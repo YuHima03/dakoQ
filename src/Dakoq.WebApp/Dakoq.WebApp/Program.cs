@@ -1,4 +1,6 @@
 using Dakoq.WebApp.Components;
+using Knoq;
+using Knoq.Extensions.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Server;
@@ -6,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using MySql.Data.MySqlClient;
 using System.Security.Claims;
+using Traq;
 
 namespace Dakoq.WebApp
 {
@@ -162,11 +165,24 @@ namespace Dakoq.WebApp
                     });
                 });
 
-                services.AddSingleton<Task<Knoq.IKnoqApiClient?>>(static async s =>
-                {
-                    var o = s.GetRequiredService<IOptions<AppConfiguration>>().Value;
-                    return await Helpers.KnoqApiClientHelper.CreateClientAsync(o);
-                });
+                services.AddOptions()
+                    .AddSingleton<IConfigureOptions<TraqApiClientOptions>>(static sp => new ConfigureNamedOptions<TraqApiClientOptions>(Options.DefaultName, options =>
+                        {
+                            var conf = sp.GetRequiredService<IOptions<AppConfiguration>>().Value;
+                            options.BaseAddress = conf.TraqApiBaseAddress?.ToString() ?? "https://q.trap.jp/api/v3";
+                        }));
+                services.AddAuthenticatedKnoqApiClient(
+                    static (sp, options) =>
+                    {
+                        var conf = sp.GetRequiredService<IOptions<AppConfiguration>>().Value;
+                        options.BaseAddress = conf.KnoqApiBaseAddress?.ToString() ?? "https://knoq.trap.jp";
+                    },
+                    static (sp, authInfo) =>
+                    {
+                        var conf = sp.GetRequiredService<IOptions<AppConfiguration>>().Value;
+                        authInfo.Username = conf.KnoqAuthInfo?.TraqUsername;
+                        authInfo.Password = conf.KnoqAuthInfo?.TraqPassword;
+                    });
 
                 services.AddScoped<Task<Traq.ITraqApiClient?>>(static async s =>
                 {

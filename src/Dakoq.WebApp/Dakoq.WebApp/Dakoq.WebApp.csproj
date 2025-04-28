@@ -31,6 +31,9 @@
     <Reference Include="Knoq">
       <HintPath>..\..\..\libs\dotnet-knoq\bin\Knoq.dll</HintPath>
     </Reference>
+    <Reference Include="Knoq.Extensions.Authentication">
+      <HintPath>..\..\..\libs\dotnet-knoq\bin\Knoq.Extensions.Authentication.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>
