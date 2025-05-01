@@ -1,5 +1,4 @@
 using Dakoq.WebApp.Components;
-using Knoq;
 using Knoq.Extensions.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -24,9 +23,14 @@ namespace Dakoq.WebApp
 
                 services.AddLogging(lb =>
                 {
-                    lb.AddFilter(builder.Environment.IsDevelopment()
-                        ? lv => lv >= LogLevel.Information
-                        : lv => lv >= LogLevel.Warning);
+                    if (builder.Environment.IsDevelopment())
+                    {
+                        lb.SetMinimumLevel(LogLevel.Debug);
+                    }
+                    else
+                    {
+                        lb.SetMinimumLevel(LogLevel.Warning);
+                    }
                     lb.AddSimpleConsole(o =>
                     {
                         o.IncludeScopes = true;
@@ -99,9 +103,13 @@ namespace Dakoq.WebApp
                 });
 
                 // Database context
-                services.AddDbContextFactory<Repository.RepositoryContext>(static (services, options) =>
+                services.AddDbContextFactory<Repository.RepositoryContext>((services, options) =>
                 {
                     var conf = services.GetRequiredService<IOptions<AppConfiguration>>();
+                    if (builder.Environment.IsDevelopment())
+                    {
+                        options.EnableSensitiveDataLogging();
+                    }
                     options.UseMySQL(conf.Value.DbConnectionString!);
                 });
 
