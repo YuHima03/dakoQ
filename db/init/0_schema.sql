@@ -33,7 +33,7 @@ CREATE TABLE `room_admin_users` (
 )   DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `room_participants` (
-    `id`            CHAR(36)        NOT NULL                                PRIMARY KEY,
+    `id`            INT UNSIGNED    NOT NULL    PRIMARY KEY     AUTO_INCREMENT,
     `room_id`       CHAR(36)        NOT NULL,
     `user_id`       CHAR(36)        NOT NULL                                COMMENT 'traQ user uuid',
     `joined_at`     DATETIME        NOT NULL    DEFAULT CURRENT_TIMESTAMP,
