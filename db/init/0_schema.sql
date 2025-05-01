@@ -48,6 +48,15 @@ ALTER TABLE `room_participants` ADD INDEX `idx_user_and_join_time` (`user_id`, `
 
 -- New DB schema
 
+CREATE TABLE `room_periods` (
+    `room_id`       CHAR(36)        NOT NULL,
+    `starts_at`     DATETIME        DEFAULT NULL,
+    `ends_at`       DATETIME        DEFAULT NULL,
+    FOREIGN KEY (`room_id`) REFERENCES `rooms`(`id`)
+)   DEFAULT CHARSET=utf8mb4;
+ALTER TABLE `room_periods` ADD INDEX `idx_room` (`room_id`);
+ALTER TABLE `room_periods` ADD INDEX `idx_time_range` (`starts_at`, `ends_at`);
+
 CREATE TABLE `room_sources` (
     `id`                        INT UNSIGNED    NOT NULL        PRIMARY KEY     AUTO_INCREMENT,
     `knoq_v1_event_id`          CHAR(36)        DEFAULT NULL,
@@ -57,12 +66,13 @@ CREATE TABLE `room_sources` (
 )   DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `knoq_v1_events` (
-    `id`        CHAR(36)    NOT NULL        PRIMARY KEY   COMMENT 'knoQ event uuid',
-    `room_id`   CHAR(36)    NOT NULL                      COMMENT 'knoQ room uuid',
-    `startsAt`  DATETIME    DEFAULT NULL,
-    `endsAt`    DATETIME    DEFAULT NULL,
-    `createdAt` DATETIME    NOT NULL        DEFAULT CURRENT_TIMESTAMP,
-    `updatedAt` DATETIME    NOT NULL        DEFAULT CURRENT_TIMESTAMP   ON UPDATE CURRENT_TIMESTAMP,
+    `id`        CHAR(36)        NOT NULL        PRIMARY KEY   COMMENT 'knoQ event uuid',
+    `name`      VARCHAR(256)    NOT NULL,
+    `room_id`   CHAR(36)        NOT NULL                      COMMENT 'knoQ room uuid',
+    `startsAt`  DATETIME        DEFAULT NULL,
+    `endsAt`    DATETIME        DEFAULT NULL,
+    `createdAt` DATETIME        NOT NULL        DEFAULT CURRENT_TIMESTAMP,
+    `updatedAt` DATETIME        NOT NULL        DEFAULT CURRENT_TIMESTAMP   ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (`room_id`) REFERENCES `knoq_v1_rooms`(`id`)
 )   DEFAULT CHARSET=utf8mb4;
 
