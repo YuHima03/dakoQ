@@ -4,7 +4,6 @@
         Guid Id,
         string Name,
         string? Description,
-        RoomSource? Source,
         RoomHours? CurrentOpeningHours,
         RoomParticipant[] Participants,
         DateTimeOffset CreatedAt,

@@ -8,14 +8,12 @@ CREATE TABLE `rooms` (
     `id`                CHAR(36)        NOT NULL                    PRIMARY KEY,
     `name`              VARCHAR(255)    NOT NULL,
     `data_source_id`    INT UNSIGNED    NOT NULL,
-    `source_id`         INT UNSIGNED    DEFAULT NULL,
     `alias`             VARCHAR(255)                DEFAULT NULL,
     `starts_at`         DATETIME                    DEFAULT NULL,
     `ends_at`           DATETIME                    DEFAULT NULL,
     `created_at`        DATETIME        NOT NULL    DEFAULT CURRENT_TIMESTAMP,
     `updated_at`        DATETIME        NOT NULL    DEFAULT CURRENT_TIMESTAMP   ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (`data_source_id`) REFERENCES `room_data_sources`(`id`),
-    FOREIGN KEY (`source_id`) REFERENCES `room_sources`(`id`)
+    FOREIGN KEY (`data_source_id`) REFERENCES `room_data_sources`(`id`)
 )   DEFAULT CHARSET=utf8mb4;
 ALTER TABLE `rooms` ADD INDEX `idx_alias_and_time_range` (`alias`, `starts_at`, `ends_at`);
 ALTER TABLE `rooms` ADD INDEX `idx_time_range`           (`starts_at`, `ends_at`);
@@ -50,9 +48,11 @@ ALTER TABLE `room_participants` ADD INDEX `idx_user_and_join_time` (`user_id`, `
 
 CREATE TABLE `room_opening_horus` (
     `room_id`       CHAR(36)        NOT NULL,
+    `source_id`     INT UNSIGNED    DEFAULT NULL,
     `starts_at`     DATETIME        DEFAULT NULL,
     `ends_at`       DATETIME        DEFAULT NULL,
-    FOREIGN KEY (`room_id`) REFERENCES `rooms`(`id`)
+    FOREIGN KEY (`room_id`) REFERENCES `rooms`(`id`),
+    FOREIGN KEY (`source_id`) REFERENCES `room_sources`(`id`)
 )   DEFAULT CHARSET=utf8mb4;
 ALTER TABLE `room_opening_horus` ADD INDEX `idx_room` (`room_id`);
 ALTER TABLE `room_opening_horus` ADD INDEX `idx_time_range` (`starts_at`, `ends_at`);
