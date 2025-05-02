@@ -7,6 +7,7 @@ CREATE TABLE `room_data_sources` (
 CREATE TABLE `rooms` (
     `id`                CHAR(36)        NOT NULL                    PRIMARY KEY,
     `name`              VARCHAR(255)    NOT NULL,
+    `description`       TEXT            DEFAULT NULL,
     `data_source_id`    INT UNSIGNED    NOT NULL,
     `alias`             VARCHAR(255)                DEFAULT NULL,
     `starts_at`         DATETIME                    DEFAULT NULL,
@@ -60,9 +61,9 @@ ALTER TABLE `room_opening_horus` ADD INDEX `idx_time_range` (`starts_at`, `ends_
 CREATE TABLE `room_sources` (
     `id`                        INT UNSIGNED    NOT NULL        PRIMARY KEY     AUTO_INCREMENT,
     `knoq_v1_event_id`          CHAR(36)        DEFAULT NULL,
-    `knoq_v1_verified_room_id`  CHAR(36)        DEFAULT NULL
+    `knoq_v1_room_id`  CHAR(36)        DEFAULT NULL
     FOREIGN KEY (`knoq_v1_event_id`) REFERENCES `knoq_v1_events`(`id`),
-    FOREIGN KEY (`knoq_v1_verified_room_id`) REFERENCES `knoq_v1_verified_rooms`(`id`)
+    FOREIGN KEY (`knoq_v1_room_id`) REFERENCES `knoq_v1_verified_rooms`(`id`)
 )   DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `knoq_v1_events` (
