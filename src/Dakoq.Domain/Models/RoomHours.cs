@@ -1,6 +1,6 @@
 ﻿namespace Dakoq.Domain.Models
 {
-    public record struct RoomOpeningHours(
+    public record struct RoomHours(
         DateTimeOffset? StartsAt,
         DateTimeOffset? EndsAt
         );
