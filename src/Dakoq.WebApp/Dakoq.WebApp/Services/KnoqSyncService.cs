@@ -19,23 +19,33 @@ namespace Dakoq.WebApp.Services
             using PeriodicTimer timer = new(_options.FetchInterval);
 
             var jstTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Tokyo Standard Time");
-            DateTimeOffset jstPrev = default;
-            string startDateTime = "";
-            string endDateTime = "";
 
-            while (await timer.WaitForNextTickAsync(stoppingToken))
+            do
             {
-                DateTimeOffset jstNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, jstTimeZone); // JST (UTC+9)
-                if (jstNow.Day != jstPrev.Day)
-                {
-                    jstPrev = jstNow;
-                    startDateTime = $"{jstNow:yyyy-MM-dd}T00:00:00+09:00";
-                    endDateTime = $"{jstNow:yyyy-MM-dd}T23:59:59+09:00";
-                }
+                var jstNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, jstTimeZone);
+                var jstTodayStart = new DateTimeOffset(jstNow.Date); // JST (UTC+9)
+                var jstTodayEnd = jstTodayStart.AddDays(1).AddTicks(-1);
 
                 // 進捗部屋とイベントを取得
-                var todayRooms = (await knoq.RoomsApi.GetRoomsAsync(startDateTime, endDateTime, null, stoppingToken)).Where(r => r.Verified && DateTimeOffset.Parse(r.TimeStart) < DateTimeOffset.Parse(r.TimeEnd)).ToList();
-                var todayEvents = (await knoq.EventsApi.GetEventsAsync(startDateTime, endDateTime, null, stoppingToken)).Where(r => DateTimeOffset.Parse(r.TimeStart) < DateTimeOffset.Parse(r.TimeEnd)).ToArray();
+                var todayRooms = (await knoq.RoomsApi.GetRoomsAsync(jstTodayStart.ToString("O"), jstTodayEnd.ToString("O"), null, stoppingToken))
+                    .Where(r =>
+                    {
+                        var start = DateTimeOffset.Parse(r.TimeStart);
+                        var end = DateTimeOffset.Parse(r.TimeEnd);
+                        return r.Verified
+                            && start < end
+                            && start <= jstNow && jstNow <= end;
+                    })
+                    .ToList();
+                var todayEvents = (await knoq.EventsApi.GetEventsAsync(jstTodayStart.ToString("O"), jstTodayEnd.ToString("O"), null, stoppingToken))
+                    .Where(r =>
+                    {
+                        var start = DateTimeOffset.Parse(r.TimeStart);
+                        var end = DateTimeOffset.Parse(r.TimeEnd);
+                        return start < end
+                            && start <= jstNow && jstNow <= end;
+                    })
+                    .ToArray();
 
                 var dataSources = (await repo.GetActiveRoomDataSourceMappingAsync(stoppingToken)).Select(kvp => (KeyValuePair<int, string>?)kvp);
                 var knoqRoomSource = dataSources.FirstOrDefault(kvp => kvp!.Value.Value == Domain.RoomDataSources.KnoqRoom.ToString())?.Key;
@@ -106,6 +116,7 @@ namespace Dakoq.WebApp.Services
                     }
                 }
             }
+            while (await timer.WaitForNextTickAsync(stoppingToken));
         }
     }
 
