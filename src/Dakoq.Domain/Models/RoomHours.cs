@@ -2,7 +2,6 @@
 {
     public record struct RoomHours(
         DateTimeOffset? StartsAt,
-        DateTimeOffset? EndsAt,
-        RoomSource? Source
+        DateTimeOffset? EndsAt
         );
 }
