@@ -48,14 +48,14 @@ ALTER TABLE `room_participants` ADD INDEX `idx_user_and_join_time` (`user_id`, `
 
 -- New DB schema
 
-CREATE TABLE `room_periods` (
+CREATE TABLE `room_opening_horus` (
     `room_id`       CHAR(36)        NOT NULL,
     `starts_at`     DATETIME        DEFAULT NULL,
     `ends_at`       DATETIME        DEFAULT NULL,
     FOREIGN KEY (`room_id`) REFERENCES `rooms`(`id`)
 )   DEFAULT CHARSET=utf8mb4;
-ALTER TABLE `room_periods` ADD INDEX `idx_room` (`room_id`);
-ALTER TABLE `room_periods` ADD INDEX `idx_time_range` (`starts_at`, `ends_at`);
+ALTER TABLE `room_opening_horus` ADD INDEX `idx_room` (`room_id`);
+ALTER TABLE `room_opening_horus` ADD INDEX `idx_time_range` (`starts_at`, `ends_at`);
 
 CREATE TABLE `room_sources` (
     `id`                        INT UNSIGNED    NOT NULL        PRIMARY KEY     AUTO_INCREMENT,

@@ -5,6 +5,6 @@ namespace Dakoq.Domain.Repository
     public interface IRoomsRepository
     {
         public ValueTask<Room[]> GetAvailableRooms(DateTimeOffset time, CancellationToken ct);
-        public ValueTask<Room[]> GetAvailableRooms(RoomPeriod period, CancellationToken ct);
+        public ValueTask<Room[]> GetAvailableRooms(RoomOpeningHours period, CancellationToken ct);
     }
 }

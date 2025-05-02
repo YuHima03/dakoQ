@@ -5,7 +5,7 @@
         string Name,
         string? Description,
         RoomSource? Source,
-        RoomPeriod? CurrentPeriod,
+        RoomOpeningHours? CurrentOpeningHours,
         RoomParticipant[] Participants,
         DateTimeOffset CreatedAt,
         DateTimeOffset UpdatedAt
