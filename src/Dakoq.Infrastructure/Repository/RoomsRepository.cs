@@ -3,7 +3,7 @@ using Dakoq.Domain.Repository;
 
 namespace Dakoq.Infrastructure.Repository
 {
-    sealed partial class Repository : IRoomsRepository
+    public sealed partial class Repository : IRoomsRepository
     {
         public ValueTask AddOrOverwriteOpeningHoursAsync(Guid roomId, RoomHours[] openingHours, CancellationToken ct)
         {
