@@ -59,6 +59,14 @@ CREATE TABLE `rooms` (
 ALTER TABLE `rooms` ADD INDEX (`deleted_at`, `id`);
 ALTER TABLE `rooms` ADD INDEX (`deleted_at`);
 
+CREATE TABLE `room_webhooks` (
+    `id`            INT UNSIGNED    NOT NULL    PRIMARY KEY     AUTO_INCREMENT,
+    `admin_user_id` CHAR(36)        NOT NULL    COMMENT 'traQ user uuid',
+    `room_id`       CHAR(36)        NOT NULL,
+    `hashed_secret` CHAR(64)        NOT NULL,
+    `created_at`    DATETIME        NOT NULL    DEFAULT CURRENT_TIMESTAMP
+)   DEFAULT CHARSET=utf8mb4;
+
 CREATE TABLE `room_admin_groups` (
     `room_id`       CHAR(36)    NOT NULL,
     `group_id`      CHAR(36)    NOT NULL    COMMENT 'traQ group uuid',
