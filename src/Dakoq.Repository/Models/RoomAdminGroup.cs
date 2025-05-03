@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Dakoq.Repository.Models
 {
-    [Table("room_admin_groups")]
+    [Table("old_room_admin_groups")]
     [Keyless]
     public sealed class RoomAdminGroup
     {

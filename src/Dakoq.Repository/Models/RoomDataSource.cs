@@ -4,7 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Dakoq.Repository.Models
 {
-    [Table("room_data_sources")]
+    [Table("old_room_data_sources")]
     public sealed class RoomDataSource
     {
         [Column("id")]
