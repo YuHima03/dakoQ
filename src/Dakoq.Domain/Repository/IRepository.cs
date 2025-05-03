@@ -1,4 +1,4 @@
 ﻿namespace Dakoq.Domain.Repository
 {
-    public interface IRepository : IRoomsRepository;
+    public interface IRepository : IRoomsRepository, IRoomWebhooksRepository;
 }
