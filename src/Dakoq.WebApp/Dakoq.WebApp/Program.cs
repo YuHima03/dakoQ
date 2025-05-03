@@ -224,6 +224,12 @@ namespace Dakoq.WebApp
                     o.ThresholdBytes = 100 * 1024 * 1024;
                 });
 
+                services.AddSingleton<Services.TraqJwtValidator>();
+                services.Configure<Services.TraqJwtValidatorOptions>(static o =>
+                {
+                    o.KeysValidPeriod = TimeSpan.FromMinutes(5);
+                });
+
                 services.AddSingleton(TimeZoneInfo.FindSystemTimeZoneById("Tokyo Standard Time"));
             }
 
