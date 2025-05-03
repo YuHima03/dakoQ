@@ -110,6 +110,8 @@ namespace Dakoq.WebApp
                     }
                     options.UseMySQL(conf.Value.DbConnectionString!);
                 });
+
+                // Database v2
                 services.AddDbContextFactory<Infrastructure.Repository.Repository>((services, options) =>
                 {
                     var config = services.GetRequiredService<IOptions<AppConfiguration>>().Value;
@@ -118,6 +120,10 @@ namespace Dakoq.WebApp
                         options.EnableSensitiveDataLogging();
                     }
                     options.UseMySQL(config.DbConnectionString!);
+                });
+                services.AddSingleton<Domain.Repository.IRepositoryFactory, Infrastructure.Repository.RepositoryFactory>(static sp =>
+                {
+                    return new Infrastructure.Repository.RepositoryFactory(sp.GetRequiredService<IDbContextFactory<Infrastructure.Repository.Repository>>());
                 });
 
                 // Authenticated user information
