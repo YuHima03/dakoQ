@@ -17,7 +17,6 @@ namespace Dakoq.Infrastructure.Repository.Models
 
         [Column("description")]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [NotNull]
         public string? Description { get; set; }
 
         [Column("created_at")]
