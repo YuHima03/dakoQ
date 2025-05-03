@@ -112,9 +112,13 @@ namespace Dakoq.WebApp
                     }
                     options.UseMySQL(conf.Value.DbConnectionString!);
                 });
-                services.AddDbContextFactory<Infrastructure.Repository.Repository>(static (services, options) =>
+                services.AddDbContextFactory<Infrastructure.Repository.Repository>((services, options) =>
                 {
                     var config = services.GetRequiredService<IOptions<AppConfiguration>>().Value;
+                    if (builder.Environment.IsDevelopment())
+                    {
+                        options.EnableSensitiveDataLogging();
+                    }
                     options.UseMySQL(config.DbConnectionString!);
                 });
 
