@@ -18,6 +18,7 @@
   </PropertyGroup>
   
   <ItemGroup>
+    <ProjectReference Include="..\..\Dakoq.Infrastructure\Dakoq.Infrastructure.csproj" />
     <ProjectReference Include="..\..\Dakoq.Repository\Dakoq.Repository.csproj" />
     <ProjectReference Include="..\Dakoq.WebApp.Client\Dakoq.WebApp.Client.csproj" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="9.0.0" />

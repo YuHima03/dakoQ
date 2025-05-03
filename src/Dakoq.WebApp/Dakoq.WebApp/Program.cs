@@ -104,6 +104,11 @@ namespace Dakoq.WebApp
                     var conf = services.GetRequiredService<IOptions<AppConfiguration>>();
                     options.UseMySQL(conf.Value.DbConnectionString!);
                 });
+                services.AddDbContextFactory<Infrastructure.Repository.Repository>(static (services, options) =>
+                {
+                    var config = services.GetRequiredService<IOptions<AppConfiguration>>().Value;
+                    options.UseMySQL(config.DbConnectionString!);
+                });
 
                 // Authenticated user information
                 services.AddScoped(static s =>
