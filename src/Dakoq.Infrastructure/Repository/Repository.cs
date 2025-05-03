@@ -1,8 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Dakoq.Domain.Repository;
+using Microsoft.EntityFrameworkCore;
 
 namespace Dakoq.Infrastructure.Repository
 {
-    public sealed partial class Repository(DbContextOptions<Repository> options) : DbContext(options)
+    public sealed partial class Repository(DbContextOptions<Repository> options) : DbContext(options), IRepository
     {
         #region knoQ
 
