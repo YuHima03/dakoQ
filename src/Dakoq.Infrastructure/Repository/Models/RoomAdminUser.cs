@@ -1,11 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Dakoq.Repository.Models
+namespace Dakoq.Infrastructure.Repository.Models
 {
-    [Table("old_room_admin_users")]
+    [Table("room_admin_users")]
     [Keyless]
-    public class RoomAdminUser
+    sealed class RoomAdminUser
     {
         [Column("room_id")]
         public Guid RoomId { get; set; }
@@ -14,6 +14,7 @@ namespace Dakoq.Repository.Models
         public Guid UserId { get; set; }
 
         [Column("created_at")]
-        public DateTimeOffset CreatedAt { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public DateTime CreatedAt { get; set; }
     }
 }

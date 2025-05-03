@@ -2,33 +2,22 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Dakoq.Repository.Models
+namespace Dakoq.Infrastructure.Repository.Models
 {
-    [Table("old_rooms")]
-    public sealed class Room
+    [Table("rooms")]
+    sealed class Room
     {
-        [Column("id")]
         [Key]
+        [Column("id")]
         public Guid Id { get; set; }
 
         [Column("name")]
         [NotNull]
         public string? Name { get; set; }
 
-        [Column("data_source_id")]
-        public int DataSourceId { get; set; }
-
-        [Column("alias")]
+        [Column("description")]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public string? Alias { get; set; }
-
-        [Column("starts_at")]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public DateTime? StartsAt { get; set; }
-
-        [Column("ends_at")]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public DateTime? EndsAt { get; set; }
+        public string? Description { get; set; }
 
         [Column("created_at")]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -37,5 +26,9 @@ namespace Dakoq.Repository.Models
         [Column("updated_at")]
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public DateTime UpdatedAt { get; set; }
+
+        [Column]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public DateTime? DeletedAt { get; set; }
     }
 }

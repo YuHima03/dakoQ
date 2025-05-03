@@ -2,10 +2,10 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Dakoq.Repository.Models
+namespace Dakoq.Infrastructure.Repository.Models
 {
-    [Table("old_rooms")]
-    public sealed class Room
+    [Table("knoq_v1_events")]
+    sealed class KnoqV1Event
     {
         [Column("id")]
         [Key]
@@ -15,20 +15,14 @@ namespace Dakoq.Repository.Models
         [NotNull]
         public string? Name { get; set; }
 
-        [Column("data_source_id")]
-        public int DataSourceId { get; set; }
-
-        [Column("alias")]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public string? Alias { get; set; }
+        [Column("room_id")]
+        public Guid? RoomId { get; set; }
 
         [Column("starts_at")]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public DateTime? StartsAt { get; set; }
+        public DateTime StartsAt { get; set; }
 
         [Column("ends_at")]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public DateTime? EndsAt { get; set; }
+        public DateTime EndsAt { get; set; }
 
         [Column("created_at")]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

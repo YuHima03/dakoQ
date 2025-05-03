@@ -1,34 +1,26 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Diagnostics.CodeAnalysis;
 
-namespace Dakoq.Repository.Models
+namespace Dakoq.Infrastructure.Repository.Models
 {
-    [Table("old_rooms")]
-    public sealed class Room
+    [Table("knoq_v1_rooms")]
+    sealed class KnoqV1Room
     {
         [Column("id")]
         [Key]
         public Guid Id { get; set; }
 
         [Column("name")]
-        [NotNull]
         public string? Name { get; set; }
 
-        [Column("data_source_id")]
-        public int DataSourceId { get; set; }
-
-        [Column("alias")]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public string? Alias { get; set; }
+        [Column("is_verified")]
+        public bool IsVerified { get; set; }
 
         [Column("starts_at")]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public DateTime? StartsAt { get; set; }
+        public DateTime StartsAt { get; set; }
 
         [Column("ends_at")]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public DateTime? EndsAt { get; set; }
+        public DateTime EndsAt { get; set; }
 
         [Column("created_at")]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
