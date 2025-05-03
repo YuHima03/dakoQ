@@ -16,15 +16,20 @@ namespace Dakoq.Infrastructure.Repository.Models
         public string? Name { get; set; }
 
         [Column("description")]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [NotNull]
         public string? Description { get; set; }
 
         [Column("created_at")]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public DateTimeOffset CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; }
 
         [Column("updated_at")]
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-        public DateTimeOffset UpdatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
+
+        [Column]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public DateTime? DeletedAt { get; set; }
     }
 }

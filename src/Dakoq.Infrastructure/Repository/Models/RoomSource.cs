@@ -11,9 +11,11 @@ namespace Dakoq.Infrastructure.Repository.Models
         public uint Id { get; set; }
 
         [Column("knoq_v1_event_id")]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid? KnoqV1EventId { get; set; }
 
         [Column("knoq_v1_room_id")]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid? KnoqV1RoomId { get; set; }
     }
 }

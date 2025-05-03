@@ -1,28 +1,27 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Diagnostics.CodeAnalysis;
 
 namespace Dakoq.Infrastructure.Repository.Models
 {
-    [Table("knoq_v1_events")]
-    sealed class KnoqV1Event
+    [Table("room_participants")]
+    sealed class RoomParticipant
     {
         [Column("id")]
         [Key]
-        public Guid Id { get; set; }
-
-        [Column("name")]
-        [NotNull]
-        public string? Name { get; set; }
+        public uint Id { get; set; }
 
         [Column("room_id")]
-        public Guid? RoomId { get; set; }
+        public Guid RoomId { get; set; }
 
-        [Column("starts_at")]
-        public DateTime StartsAt { get; set; }
+        [Column("user_id")]
+        public Guid UserId { get; set; }
 
-        [Column("ends_at")]
-        public DateTime EndsAt { get; set; }
+        [Column("joined_at")]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public DateTime JoinedAt { get; set; }
+
+        [Column("left_at")]
+        public DateTime? LeftAt { get; set; }
 
         [Column("created_at")]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

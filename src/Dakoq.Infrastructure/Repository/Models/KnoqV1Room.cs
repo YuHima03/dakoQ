@@ -1,22 +1,20 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Diagnostics.CodeAnalysis;
 
 namespace Dakoq.Infrastructure.Repository.Models
 {
-    [Table("knoq_v1_events")]
-    sealed class KnoqV1Event
+    [Table("knoq_v1_rooms")]
+    sealed class KnoqV1Room
     {
         [Column("id")]
         [Key]
         public Guid Id { get; set; }
 
         [Column("name")]
-        [NotNull]
         public string? Name { get; set; }
 
-        [Column("room_id")]
-        public Guid? RoomId { get; set; }
+        [Column("is_verified")]
+        public bool IsVerified { get; set; }
 
         [Column("starts_at")]
         public DateTime StartsAt { get; set; }
