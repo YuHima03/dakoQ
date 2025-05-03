@@ -1,9 +1,9 @@
 ﻿namespace Dakoq.Domain.Models
 {
-    public sealed record class Knoq1Event(
+    public sealed record class KnoqV1Room(
         Guid Id,
         string Name,
-        Knoq1Room? Room,
+        bool IsVerified,
         DateTimeOffset StartsAt,
         DateTimeOffset EndsAt,
         DateTimeOffset CreatedAt,
