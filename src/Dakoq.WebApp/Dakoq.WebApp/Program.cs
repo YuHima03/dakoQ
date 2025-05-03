@@ -23,19 +23,17 @@ namespace Dakoq.WebApp
 
                 services.AddLogging(lb =>
                 {
-                    if (builder.Environment.IsDevelopment())
-                    {
-                        lb.SetMinimumLevel(LogLevel.Debug);
-                    }
-                    else
-                    {
-                        lb.SetMinimumLevel(LogLevel.Warning);
-                    }
                     lb.AddSimpleConsole(o =>
                     {
                         o.IncludeScopes = true;
                         o.ColorBehavior = Microsoft.Extensions.Logging.Console.LoggerColorBehavior.Enabled;
                     });
+                    lb.SetMinimumLevel(LogLevel.Information);
+
+                    if (builder.Environment.IsProduction())
+                    {
+                        lb.AddFilter("Microsoft.EntityFrameworkCore.Database.Command", LogLevel.Warning);
+                    }
                 });
 
                 // API controllers
@@ -112,9 +110,13 @@ namespace Dakoq.WebApp
                     }
                     options.UseMySQL(conf.Value.DbConnectionString!);
                 });
-                services.AddDbContextFactory<Infrastructure.Repository.Repository>(static (services, options) =>
+                services.AddDbContextFactory<Infrastructure.Repository.Repository>((services, options) =>
                 {
                     var config = services.GetRequiredService<IOptions<AppConfiguration>>().Value;
+                    if (builder.Environment.IsDevelopment())
+                    {
+                        options.EnableSensitiveDataLogging();
+                    }
                     options.UseMySQL(config.DbConnectionString!);
                 });
 
