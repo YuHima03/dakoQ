@@ -1,4 +1,8 @@
 ﻿namespace Dakoq.Domain.Repository
 {
-    public interface IRepository : IRoomsRepository, IRoomWebhooksRepository;
+    public interface IRepository :
+        IAsyncDisposable,
+        IDisposable,
+        IRoomsRepository,
+        IRoomWebhooksRepository;
 }
