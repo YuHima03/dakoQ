@@ -1,7 +1,7 @@
 ﻿namespace Dakoq.Domain.Models
 {
     public sealed record class PostRoomWebhookResult(
-        uint Id,
+        Guid Id,
         Guid OwnerId,
         Guid RoomId,
         string PlainSecret,
