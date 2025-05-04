@@ -28,11 +28,14 @@ namespace Dakoq.WebApp
                         o.IncludeScopes = true;
                         o.ColorBehavior = Microsoft.Extensions.Logging.Console.LoggerColorBehavior.Enabled;
                     });
-                    lb.SetMinimumLevel(LogLevel.Information);
 
                     if (builder.Environment.IsProduction())
                     {
                         lb.AddFilter("Microsoft.EntityFrameworkCore.Database.Command", LogLevel.Warning);
+                    }
+                    else if (builder.Environment.IsDevelopment())
+                    {
+                        lb.AddFilter("Dakoq", LogLevel.Debug);
                     }
                 });
 
