@@ -1,8 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Dakoq.Domain.Repository;
+using Microsoft.EntityFrameworkCore;
 
 namespace Dakoq.Infrastructure.Repository
 {
-    public sealed partial class Repository(DbContextOptions<Repository> options) : DbContext(options)
+    public sealed partial class Repository(DbContextOptions<Repository> options) : DbContext(options), IRepository
     {
         #region knoQ
 
@@ -17,5 +18,6 @@ namespace Dakoq.Infrastructure.Repository
         DbSet<Models.RoomOpeningHours> RoomOpeningHours { get; set; }
         DbSet<Models.RoomParticipant> RoomParticipants { get; set; }
         DbSet<Models.RoomSource> RoomSources { get; set; }
+        DbSet<Models.RoomWebhook> RoomWebhooks { get; set; }
     }
 }

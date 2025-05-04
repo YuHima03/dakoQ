@@ -15,7 +15,7 @@ namespace Dakoq.Domain.Repository
         public ValueTask<Room[]> GetAvailableRoomsAsync(RoomHours hours, CancellationToken ct);
         
         public ValueTask<RoomHoursWithSource[]> GetRoomOpeningHoursAsync(Guid roomId, DateTimeOffset after, DateTimeOffset before, CancellationToken ct);
-        
+
         public ValueTask<Room> PostRoomAsync(PostRoomRequest request, CancellationToken ct);
 
         public ValueTask<Room> UpdateRoomAsync(Guid roomId, PostRoomRequest request, CancellationToken ct);

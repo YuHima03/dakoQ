@@ -28,11 +28,14 @@ namespace Dakoq.WebApp
                         o.IncludeScopes = true;
                         o.ColorBehavior = Microsoft.Extensions.Logging.Console.LoggerColorBehavior.Enabled;
                     });
-                    lb.SetMinimumLevel(LogLevel.Information);
 
                     if (builder.Environment.IsProduction())
                     {
                         lb.AddFilter("Microsoft.EntityFrameworkCore.Database.Command", LogLevel.Warning);
+                    }
+                    else if (builder.Environment.IsDevelopment())
+                    {
+                        lb.AddFilter("Dakoq", LogLevel.Debug);
                     }
                 });
 
@@ -110,6 +113,8 @@ namespace Dakoq.WebApp
                     }
                     options.UseMySQL(conf.Value.DbConnectionString!);
                 });
+
+                // Database v2
                 services.AddDbContextFactory<Infrastructure.Repository.Repository>((services, options) =>
                 {
                     var config = services.GetRequiredService<IOptions<AppConfiguration>>().Value;
@@ -118,6 +123,10 @@ namespace Dakoq.WebApp
                         options.EnableSensitiveDataLogging();
                     }
                     options.UseMySQL(config.DbConnectionString!);
+                });
+                services.AddSingleton<Domain.Repository.IRepositoryFactory, Infrastructure.Repository.RepositoryFactory>(static sp =>
+                {
+                    return new Infrastructure.Repository.RepositoryFactory(sp.GetRequiredService<IDbContextFactory<Infrastructure.Repository.Repository>>());
                 });
 
                 // Authenticated user information
@@ -222,6 +231,12 @@ namespace Dakoq.WebApp
                 {
                     o.CheckInterval = TimeSpan.FromSeconds(10);
                     o.ThresholdBytes = 100 * 1024 * 1024;
+                });
+
+                services.AddSingleton<Services.TraqJwtValidator>();
+                services.Configure<Services.TraqJwtValidatorOptions>(static o =>
+                {
+                    o.KeysValidPeriod = TimeSpan.FromMinutes(5);
                 });
 
                 services.AddSingleton(TimeZoneInfo.FindSystemTimeZoneById("Tokyo Standard Time"));
