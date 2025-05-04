@@ -4,5 +4,6 @@
         IAsyncDisposable,
         IDisposable,
         IRoomsRepository,
+        IRoomParticipantsRepository,
         IRoomWebhooksRepository;
 }
