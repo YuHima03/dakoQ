@@ -8,6 +8,7 @@ namespace Dakoq.Infrastructure.Repository.Models
     {
         [Column("id")]
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public uint Id { get; set; }
 
         [Column("room_id")]
@@ -21,6 +22,7 @@ namespace Dakoq.Infrastructure.Repository.Models
         public DateTime JoinedAt { get; set; }
 
         [Column("left_at")]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public DateTime? LeftAt { get; set; }
 
         [Column("created_at")]

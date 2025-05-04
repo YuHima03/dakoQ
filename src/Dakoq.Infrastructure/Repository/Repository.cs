@@ -18,5 +18,6 @@ namespace Dakoq.Infrastructure.Repository
         DbSet<Models.RoomOpeningHours> RoomOpeningHours { get; set; }
         DbSet<Models.RoomParticipant> RoomParticipants { get; set; }
         DbSet<Models.RoomSource> RoomSources { get; set; }
+        DbSet<Models.RoomWebhook> RoomWebhooks { get; set; }
     }
 }
