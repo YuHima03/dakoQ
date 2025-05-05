@@ -8,6 +8,8 @@ namespace Dakoq.Domain.Repository
 
         public ValueTask AddOrOverwriteOpeningHoursAsync(Guid roomId, RoomHours[] openingHours, CancellationToken ct);
 
+        public ValueTask<RoomHoursWithSource> AddOrUpdateRoomOpeningHoursWithSourceAsync(Guid roomId, PostRoomSourceRequest source, CancellationToken ct);
+
         public ValueTask DeleteRoomOpeningHoursAsync(Guid roomId, RoomHours[] excludedHours, CancellationToken ct);
 
         public ValueTask<Room[]> GetAvailableRoomsAsync(DateTimeOffset time, CancellationToken ct);
@@ -18,6 +20,6 @@ namespace Dakoq.Domain.Repository
 
         public ValueTask<Room> PostRoomAsync(PostRoomRequest request, CancellationToken ct);
 
-        public ValueTask<Room> UpdateRoomAsync(Guid roomId, PostRoomRequest request, CancellationToken ct);
+        public ValueTask<Room> UpdateRoomAsync(Guid roomId, UpdateRoomRequest request, CancellationToken ct);
     }
 }

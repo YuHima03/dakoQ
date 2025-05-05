@@ -10,6 +10,11 @@ namespace Dakoq.Infrastructure.Repository
             throw new NotImplementedException();
         }
 
+        public ValueTask<RoomHoursWithSource> AddOrUpdateRoomOpeningHoursWithSourceAsync(Guid roomId, PostRoomSourceRequest source, CancellationToken ct)
+        {
+            throw new NotImplementedException();
+        }
+
         public ValueTask AddRoomOpeningHoursAsync(Guid roomId, RoomHours[] openingHours, CancellationToken ct)
         {
             throw new NotImplementedException();
@@ -40,7 +45,7 @@ namespace Dakoq.Infrastructure.Repository
             throw new NotImplementedException();
         }
 
-        public ValueTask<Domain.Room> UpdateRoomAsync(Guid roomId, PostRoomRequest request, CancellationToken ct)
+        public ValueTask<Domain.Room> UpdateRoomAsync(Guid roomId, UpdateRoomRequest request, CancellationToken ct)
         {
             throw new NotImplementedException();
         }
