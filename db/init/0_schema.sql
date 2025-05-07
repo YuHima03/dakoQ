@@ -82,42 +82,13 @@ CREATE TABLE `room_admin_users` (
     FOREIGN KEY (`room_id`) REFERENCES `rooms`(`id`)
 )   DEFAULT CHARSET=utf8mb4;
 
-CREATE TABLE `knoq_v1_rooms` (
-    `id`            CHAR(36)        NOT NULL    PRIMARY KEY     COMMENT 'knoQ room uuid',
-    `name`          VARCHAR(256)    NOT NULL,
-    `is_verified`   BOOLEAN         NOT NULL    DEFAULT 0,
-    `starts_at`     DATETIME        NOT NULL,
-    `ends_at`       DATETIME        NOT NULL,
-    `created_at`    DATETIME        NOT NULL        DEFAULT CURRENT_TIMESTAMP,
-    `updated_at`    DATETIME        NOT NULL        DEFAULT CURRENT_TIMESTAMP   ON UPDATE CURRENT_TIMESTAMP
-)   DEFAULT CHARSET=utf8mb4;
-
-CREATE TABLE `knoq_v1_events` (
-    `id`            CHAR(36)        NOT NULL        PRIMARY KEY   COMMENT 'knoQ event uuid',
-    `name`          VARCHAR(256)    NOT NULL,
-    `room_id`       CHAR(36)        NOT NULL                      COMMENT 'knoQ room uuid',
-    `starts_at`     DATETIME        NOT NULL,
-    `ends_at`       DATETIME        NOT NULL,
-    `created_at`    DATETIME        NOT NULL        DEFAULT CURRENT_TIMESTAMP,
-    `updated_at`    DATETIME        NOT NULL        DEFAULT CURRENT_TIMESTAMP   ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (`room_id`) REFERENCES `knoq_v1_rooms`(`id`)
-)   DEFAULT CHARSET=utf8mb4;
-
-CREATE TABLE `room_sources` (
-    `id`                INT UNSIGNED    NOT NULL        PRIMARY KEY     AUTO_INCREMENT,
-    `knoq_v1_event_id`  CHAR(36)        DEFAULT NULL,
-    `knoq_v1_room_id`   CHAR(36)        DEFAULT NULL,
-    FOREIGN KEY (`knoq_v1_event_id`) REFERENCES `knoq_v1_events`(`id`),
-    FOREIGN KEY (`knoq_v1_room_id`)  REFERENCES `knoq_v1_rooms`(`id`)
-)   DEFAULT CHARSET=utf8mb4;
-
 CREATE TABLE `room_opening_horus` (
-    `room_id`       CHAR(36)        NOT NULL,
-    `source_id`     INT UNSIGNED    DEFAULT NULL,
-    `starts_at`     DATETIME        DEFAULT NULL,
-    `ends_at`       DATETIME        DEFAULT NULL,
-    FOREIGN KEY (`room_id`) REFERENCES `rooms`(`id`),
-    FOREIGN KEY (`source_id`) REFERENCES `room_sources`(`id`)
+    `room_id`                   CHAR(36)        NOT NULL,
+    `source_knoq_v1_event_id`   CHAR(36)        DEFAULT NULL,
+    `source_knoq_v1_room_id`    CHAR(32)        DEFAULT NULL,
+    `starts_at`                 DATETIME        DEFAULT NULL,
+    `ends_at`                   DATETIME        DEFAULT NULL,
+    FOREIGN KEY (`room_id`) REFERENCES `rooms`(`id`)
 )   DEFAULT CHARSET=utf8mb4;
 ALTER TABLE `room_opening_horus` ADD INDEX `idx_room`       (`room_id`);
 ALTER TABLE `room_opening_horus` ADD INDEX `idx_time_range` (`starts_at`, `ends_at`);
