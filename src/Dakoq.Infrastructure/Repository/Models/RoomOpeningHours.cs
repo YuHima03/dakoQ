@@ -10,9 +10,13 @@ namespace Dakoq.Infrastructure.Repository.Models
         [Column("room_id")]
         public Guid RoomId { get; set; }
 
-        [Column("source_id")]
+        [Column("source_knoq_v1_event_id")]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid? SourceId { get; set; }
+        public Guid? SourceKnoqV1EventId { get; set; }
+
+        [Column("source_knoq_v1_room_id")]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public Guid? SourceKnoqV1RoomId { get; set; }
 
         [Column("starts_at")]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
