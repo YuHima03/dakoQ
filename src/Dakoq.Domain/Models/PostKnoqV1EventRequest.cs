@@ -1,12 +1,12 @@
 ﻿namespace Dakoq.Domain.Models
 {
-    public sealed record class KnoqV1Event(
+    public record class PostKnoqV1EventRequest(
         Guid Id,
         string Name,
-        KnoqV1Room? Room,
+        Guid? RoomId,
         DateTimeOffset StartsAt,
         DateTimeOffset EndsAt,
-        DateTimeOffset CreatedAt,
-        DateTimeOffset UpdatedAt
+        DateTimeOffset SourceCreatedAt,
+        DateTimeOffset SourceUpdatedAt
         );
 }

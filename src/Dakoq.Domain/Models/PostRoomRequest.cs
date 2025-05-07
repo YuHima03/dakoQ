@@ -3,6 +3,6 @@
     public sealed record PostRoomRequest(
         string Name,
         string? Description,
-        RoomHours[] OpeningHours
+        PostRoomHoursRequest[] OpeningHours
         );
 }

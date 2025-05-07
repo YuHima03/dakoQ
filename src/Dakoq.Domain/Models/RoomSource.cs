@@ -1,7 +1,12 @@
 ﻿namespace Dakoq.Domain.Models
 {
-    public sealed record class RoomSource(
-        KnoqV1Event? KnoqV1Event,
-        KnoqV1Room? KnoqV1Room
-        );
+    public record struct RoomSource(
+        Guid? KnoqV1EventId,
+        Guid? KnoqV1RoomId
+        )
+    {
+        public static RoomSource CreateKnoeV1Event(Guid eventId) => new(eventId, null);
+
+        public static RoomSource CreateKnoeV1Room(Guid roomId) => new(null, roomId);
+    }
 }
