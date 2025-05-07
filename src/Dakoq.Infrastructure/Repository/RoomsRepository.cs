@@ -10,7 +10,7 @@ namespace Dakoq.Infrastructure.Repository
             throw new NotImplementedException();
         }
 
-        public ValueTask<RoomHoursWithSource> AddOrUpdateRoomOpeningHoursWithSourceAsync(Guid roomId, PostRoomSourceRequest source, CancellationToken ct)
+        public ValueTask<RoomHoursWithSource> AddOrUpdateRoomOpeningHoursWithSourceAsync(PostRoomSourceRequest source, CancellationToken ct)
         {
             throw new NotImplementedException();
         }

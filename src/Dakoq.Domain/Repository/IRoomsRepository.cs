@@ -8,7 +8,7 @@ namespace Dakoq.Domain.Repository
 
         public ValueTask AddOrOverwriteOpeningHoursAsync(Guid roomId, RoomHours[] openingHours, CancellationToken ct);
 
-        public ValueTask<RoomHoursWithSource> AddOrUpdateRoomOpeningHoursWithSourceAsync(Guid roomId, PostRoomSourceRequest source, CancellationToken ct);
+        public ValueTask<RoomHoursWithSource> AddOrUpdateRoomOpeningHoursWithSourceAsync(PostRoomSourceRequest source, CancellationToken ct);
 
         public ValueTask DeleteRoomOpeningHoursAsync(Guid roomId, RoomHours[] excludedHours, CancellationToken ct);
 
